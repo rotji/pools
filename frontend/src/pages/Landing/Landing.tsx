@@ -5,26 +5,41 @@ import { HeroSection } from '../../components/HeroSection';
 import styles from '../../styles/pages/Landing.module.css';
 
 export interface LandingPageProps {
-  // Future props for wallet connection state
+  onNavigateHome?: () => void;
+  onNavigateGroups?: () => void;
+  onNavigateCreate?: () => void;
+  onConnectWallet?: () => void;
+  isWalletConnected?: boolean;
+  walletAddress?: string;
 }
 
-export const LandingPage: React.FC<LandingPageProps> = () => {
-  // Mock wallet connection handlers (will implement with Stacks.js later)
+export const LandingPage: React.FC<LandingPageProps> = ({
+  onNavigateHome,
+  onNavigateGroups, 
+  onNavigateCreate,
+  onConnectWallet,
+  isWalletConnected,
+  walletAddress
+}) => {
   const handleConnectWallet = useCallback(() => {
     console.log('Connect wallet clicked');
-    // TODO: Implement wallet connection with @stacks/connect
-  }, []);
+    onConnectWallet?.();
+  }, [onConnectWallet]);
 
   const handleLearnMore = useCallback(() => {
-    console.log('Learn more clicked');
-    // TODO: Scroll to features section or open modal
-  }, []);
+    console.log('Learn more clicked - navigating to groups');
+    onNavigateGroups?.();
+  }, [onNavigateGroups]);
 
   return (
     <div className={styles.landingPage}>
       <Header 
         onConnectWallet={handleConnectWallet}
-        isWalletConnected={false}
+        onNavigateHome={onNavigateHome}
+        onNavigateGroups={onNavigateGroups}
+        onNavigateCreate={onNavigateCreate}
+        isWalletConnected={isWalletConnected}
+        walletAddress={walletAddress}
       />
       
       <main className={styles.main}>

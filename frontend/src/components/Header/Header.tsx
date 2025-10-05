@@ -7,12 +7,18 @@ export interface HeaderProps {
   onConnectWallet?: () => void;
   isWalletConnected?: boolean;
   walletAddress?: string;
+  onNavigateHome?: () => void;
+  onNavigateGroups?: () => void;
+  onNavigateCreate?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onConnectWallet,
   isWalletConnected = false,
-  walletAddress
+  walletAddress,
+  onNavigateHome,
+  onNavigateGroups,
+  onNavigateCreate
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -40,18 +46,18 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop Navigation */}
         <nav className={styles.desktopNav}>
-          <a href={ROUTES.HOME} className={styles.navLink}>
+          <button onClick={onNavigateHome} className={styles.navLink}>
             <span className={styles.navIcon}>🏠</span>
             Home
-          </a>
-          <a href={ROUTES.GROUPS} className={styles.navLink}>
+          </button>
+          <button onClick={onNavigateGroups} className={styles.navLink}>
             <span className={styles.navIcon}>👥</span>
             Groups
-          </a>
-          <a href={ROUTES.CREATE} className={styles.navLink}>
+          </button>
+          <button onClick={onNavigateCreate} className={styles.navLink}>
             <span className={styles.navIcon}>➕</span>
             Create
-          </a>
+          </button>
         </nav>
 
         {/* Wallet Section */}
@@ -95,18 +101,18 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <nav className={styles.mobileNav}>
-            <a href={ROUTES.HOME} className={styles.mobileNavLink}>
+            <button onClick={() => { onNavigateHome?.(); setIsMobileMenuOpen(false); }} className={styles.mobileNavLink}>
               <span className={styles.navIcon}>🏠</span>
               Home
-            </a>
-            <a href={ROUTES.GROUPS} className={styles.mobileNavLink}>
+            </button>
+            <button onClick={() => { onNavigateGroups?.(); setIsMobileMenuOpen(false); }} className={styles.mobileNavLink}>
               <span className={styles.navIcon}>👥</span>
               Groups
-            </a>
-            <a href={ROUTES.CREATE} className={styles.mobileNavLink}>
+            </button>
+            <button onClick={() => { onNavigateCreate?.(); setIsMobileMenuOpen(false); }} className={styles.mobileNavLink}>
               <span className={styles.navIcon}>➕</span>
               Create
-            </a>
+            </button>
           </nav>
         )}
       </div>
