@@ -1,7 +1,7 @@
 {
-  "name": "unitedprofit-monorepo",
+  "name": "pools-monorepo",
   "version": "1.0.0",
-  "description": "UnitedProfit: Decentralized group investment pooling platform",
+  "description": "Decentralized group investment pooling platform",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -29,6 +29,6 @@
     "group-investment",
     "profit-sharing"
   ],
-  "author": "UnitedProfit Team",
+  "author": "Development Team",
   "license": "MIT"
 }

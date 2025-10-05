@@ -1,9 +1,9 @@
-# UnitedProfit - Project Structure
+# Project Structure
 
 ## Monorepo Architecture
 
 ```
-unitedprofit/
+pools/
 ├── README.md                   # Main project documentation
 ├── package.json               # Workspace configuration
 ├── .gitignore                 # Git ignore rules
