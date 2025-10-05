@@ -5,10 +5,10 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, #1d4ed8 0%, #0891b2 50%, #059669 100%);
   backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid var(--color-border);
-  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(29, 78, 216, 0.3);
   transition: all var(--transition-normal);
 }
 
@@ -56,13 +56,14 @@
   font-family: var(--font-primary);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
+  color: white;
   text-decoration: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .tagline {
   font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.8);
   font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -82,18 +83,21 @@
   gap: var(--space-xs);
   font-family: var(--font-body);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-lg);
   transition: all var(--transition-normal);
   position: relative;
   background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
 }
 
 .navLink:hover {
-  color: var(--color-text-primary);
-  background: var(--color-bg-secondary);
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
 }
 
@@ -120,15 +124,15 @@
   align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-md);
-  background: var(--color-bg-secondary);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-full);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .walletDot {
   width: 8px;
   height: 8px;
-  background: var(--color-success-green);
+  background: #10b981;
   border-radius: 50%;
   animation: pulse 2s ease-in-out infinite;
 }
@@ -141,7 +145,7 @@
 .walletAddress {
   font-family: monospace;
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.9);
   font-weight: var(--font-weight-medium);
 }
 
@@ -166,7 +170,7 @@
 .hamburger span {
   width: 100%;
   height: 2px;
-  background: var(--color-text-primary);
+  background: white;
   border-radius: 1px;
   transition: all var(--transition-normal);
   position: absolute;
@@ -218,6 +222,10 @@
   border-radius: var(--radius-lg);
   transition: all var(--transition-normal);
   background: var(--color-bg-secondary);
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  width: 100%;
 }
 
 .mobileNavLink:hover {

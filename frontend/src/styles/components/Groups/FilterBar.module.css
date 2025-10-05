@@ -1,0 +1,217 @@
+/* FilterBar Component Styles */
+.filterBar {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: var(--space-xl);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Search Section */
+.searchSection {
+  width: 100%;
+}
+
+.searchInputWrapper {
+  position: relative;
+  max-width: 500px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--font-size-base);
+  color: #64748b;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--space-md) var(--space-md) var(--space-md) calc(var(--space-md) + 1.5rem);
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all var(--transition-normal);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+  background: white;
+}
+
+.searchInput::placeholder {
+  color: #94a3b8;
+}
+
+/* Filters Section */
+.filtersSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: #475569;
+  white-space: nowrap;
+}
+
+.filterOptions {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.filterChip {
+  padding: var(--space-xs) var(--space-md);
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.8);
+  color: #475569;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+}
+
+.filterChip:hover {
+  border-color: #cbd5e1;
+  background: white;
+  transform: translateY(-1px);
+}
+
+.filterChip.active {
+  color: white;
+  font-weight: var(--font-weight-semibold);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Actions Section */
+.actionsSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.sortGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sortLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: #475569;
+  white-space: nowrap;
+}
+
+.sortSelect {
+  padding: var(--space-xs) var(--space-md);
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  min-width: 180px;
+}
+
+.sortSelect:focus {
+  outline: none;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+}
+
+.clearButton {
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .filterBar {
+    padding: var(--space-lg);
+  }
+  
+  .filtersSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
+  }
+  
+  .filterGroup {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .actionsSection {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-md);
+  }
+  
+  .sortGroup {
+    justify-content: space-between;
+  }
+  
+  .sortSelect {
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    gap: var(--space-md);
+  }
+  
+  .searchInputWrapper {
+    max-width: 100%;
+  }
+  
+  .filterGroup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+  
+  .filterOptions {
+    width: 100%;
+  }
+  
+  .filterChip {
+    flex: 1;
+    text-align: center;
+    min-width: 80px;
+  }
+}

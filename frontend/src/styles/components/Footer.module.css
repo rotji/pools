@@ -2,11 +2,11 @@
 .footer {
   background: linear-gradient(
     135deg,
-    var(--color-bg-secondary) 0%,
-    var(--color-bg-primary) 50%,
-    var(--color-bg-secondary) 100%
+    #0f172a 0%,
+    #1e293b 50%,
+    #334155 100%
   );
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: var(--space-2xl);
 }
 
@@ -58,11 +58,12 @@
   font-family: var(--font-primary);
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .brandDescription {
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.8);
   line-height: var(--line-height-relaxed);
   max-width: 300px;
   margin: 0;
@@ -83,12 +84,12 @@
   font-family: var(--font-primary);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
+  color: white;
 }
 
 .statLabel {
   font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -104,7 +105,7 @@
   font-family: var(--font-primary);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  color: white;
   margin: 0;
 }
 
@@ -115,7 +116,7 @@
 }
 
 .footerLink {
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   font-weight: var(--font-weight-medium);
   transition: all var(--transition-normal);
@@ -123,7 +124,7 @@
 }
 
 .footerLink:hover {
-  color: var(--color-text-primary);
+  color: white;
   transform: translateX(4px);
 }
 
@@ -141,7 +142,7 @@
 }
 
 .newsletterText {
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   font-size: var(--font-size-sm);
   margin: 0;
 }
@@ -154,9 +155,9 @@
 .emailInput {
   flex: 1;
   padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-lg);
-  background: var(--color-bg-primary);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--color-text-primary);
   font-family: var(--font-body);
   font-size: var(--font-size-sm);
@@ -170,7 +171,7 @@
 }
 
 .emailInput::placeholder {
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .socialLinks {
@@ -184,10 +185,10 @@
   align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
-  background: var(--color-bg-primary);
-  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-md);
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
@@ -195,8 +196,8 @@
 }
 
 .socialLink:hover {
-  color: var(--color-text-primary);
-  background: var(--color-bg-secondary);
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
@@ -207,7 +208,7 @@
 
 /* Footer Bottom */
 .footerBottom {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: var(--space-lg);
   display: flex;
   flex-direction: column;
@@ -221,7 +222,7 @@
 }
 
 .copyright {
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   font-size: var(--font-size-sm);
   margin: 0;
 }
@@ -233,20 +234,20 @@
 }
 
 .builtWith {
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.6);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
 }
 
 .disclaimer {
   padding: var(--space-md);
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
   border-radius: var(--radius-lg);
 }
 
 .disclaimerText {
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.9);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-relaxed);
   margin: 0;
