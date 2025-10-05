@@ -1,0 +1,34 @@
+{
+  "name": "unitedprofit-monorepo",
+  "version": "1.0.0",
+  "description": "UnitedProfit: Decentralized group investment pooling platform",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend", 
+    "oracle-service"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\" \"npm run dev --workspace=oracle-service\"",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "clean": "rm -rf node_modules && npm run clean --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "blockchain",
+    "stacks",
+    "investment",
+    "pooling",
+    "defi",
+    "group-investment",
+    "profit-sharing"
+  ],
+  "author": "UnitedProfit Team",
+  "license": "MIT"
+}
