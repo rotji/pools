@@ -1,13 +1,33 @@
 [project]
 name = "contracts"
-description = ""
+description = "Group investment pooling smart contracts"
 authors = []
 telemetry = true
 cache_dir = "./.cache"
 
-# [contracts.counter]
-# path = "contracts/counter.clar"
-# epoch = "latest"
+[contracts.group-factory]
+path = "contracts/group-factory.clar"
+epoch = "latest"
+
+[contracts.escrow-stx]
+path = "contracts/escrow-stx.clar"
+epoch = "latest"
+
+[contracts.escrow-template]
+path = "contracts/escrow-template.clar"
+epoch = "latest"
+
+[contracts.oracle-registry]
+path = "contracts/oracle-registry.clar"
+epoch = "latest"
+
+[contracts.settlement]
+path = "contracts/settlement.clar"
+epoch = "latest"
+
+[contracts.sip010-mock-token]
+path = "contracts/sip010-mock-token.clar"
+epoch = "latest"
 
 [repl.analysis]
 passes = ["check_checker"]
