@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { Navigation } from '../../components/Navigation';
+import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
 import { HeroSection } from '../../components/HeroSection';
 import styles from '../../styles/pages/Landing.module.css';
 
@@ -21,7 +22,7 @@ export const LandingPage: React.FC<LandingPageProps> = () => {
 
   return (
     <div className={styles.landingPage}>
-      <Navigation 
+      <Header 
         onConnectWallet={handleConnectWallet}
         isWalletConnected={false}
       />
@@ -36,9 +37,10 @@ export const LandingPage: React.FC<LandingPageProps> = () => {
             - Features section
             - How it works
             - Recent groups/activity
-            - Footer
         */}
       </main>
+
+      <Footer />
     </div>
   );
 };

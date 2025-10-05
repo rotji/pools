@@ -25,8 +25,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className={styles.container}>
         <GlowContainer 
           glowColor="blue" 
-          intensity="medium" 
-          animated
+          intensity="medium"
           className={styles.heroCard}
         >
           <div className={styles.heroContent}>
