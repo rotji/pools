@@ -1,0 +1,104 @@
+/* GlowContainer Component Styles */
+.glowContainer {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.glowEffect {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: 1;
+  border-radius: inherit;
+  opacity: 0.6;
+  transition: all var(--transition-normal);
+}
+
+/* Glow Colors */
+.blue .glowEffect {
+  background: linear-gradient(135deg, var(--color-primary-blue), var(--color-primary-cyan));
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+.cyan .glowEffect {
+  background: linear-gradient(135deg, var(--color-primary-cyan), #22d3ee);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+.green .glowEffect {
+  background: linear-gradient(135deg, var(--color-success-green), #34d399);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.amber .glowEffect {
+  background: linear-gradient(135deg, var(--color-warning-amber), #fbbf24);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+/* Intensity Levels */
+.low .glowEffect {
+  opacity: 0.3;
+}
+
+.medium .glowEffect {
+  opacity: 0.6;
+}
+
+.high .glowEffect {
+  opacity: 0.8;
+}
+
+/* Hover Effects */
+.glowContainer:hover .glowEffect {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+/* Animation for Pulsing Effect */
+.animated .glowEffect {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+}
+
+/* Interactive Glow Enhancement */
+.glowContainer:hover.blue .glowEffect {
+  box-shadow: 
+    0 0 30px rgba(37, 99, 235, 0.4),
+    0 0 60px rgba(37, 99, 235, 0.2);
+}
+
+.glowContainer:hover.cyan .glowEffect {
+  box-shadow: 
+    0 0 30px rgba(6, 182, 212, 0.4),
+    0 0 60px rgba(6, 182, 212, 0.2);
+}
+
+.glowContainer:hover.green .glowEffect {
+  box-shadow: 
+    0 0 30px rgba(16, 185, 129, 0.4),
+    0 0 60px rgba(16, 185, 129, 0.2);
+}
+
+.glowContainer:hover.amber .glowEffect {
+  box-shadow: 
+    0 0 30px rgba(245, 158, 11, 0.4),
+    0 0 60px rgba(245, 158, 11, 0.2);
+}

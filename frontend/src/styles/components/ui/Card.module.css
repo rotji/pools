@@ -1,0 +1,82 @@
+/* Card Component Styles */
+.card {
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-primary);
+}
+
+/* Variants */
+.default {
+  box-shadow: var(--shadow-sm);
+}
+
+.default:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.glass {
+  background: var(--gradient-glass);
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--color-border-glass);
+  box-shadow: var(--shadow-md);
+}
+
+.glass:hover {
+  background: var(--color-bg-glass-hover);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.elevated {
+  background: var(--color-bg-primary);
+  box-shadow: var(--shadow-lg);
+  border: none;
+}
+
+.elevated:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  transform: translateY(-4px);
+}
+
+/* Padding Variants */
+.padding-none {
+  padding: 0;
+}
+
+.padding-sm {
+  padding: var(--space-md);
+}
+
+.padding-md {
+  padding: var(--space-lg);
+}
+
+.padding-lg {
+  padding: var(--space-xl);
+}
+
+/* Glass Effect Overlay */
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.glass:hover::before {
+  opacity: 1;
+}
