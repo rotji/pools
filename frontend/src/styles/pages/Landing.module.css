@@ -1,0 +1,16 @@
+/* Landing Page Styles */
+.landingPage {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+}
+
+.main {
+  padding-top: 80px; /* Account for fixed navigation */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main {
+    padding-top: 70px;
+  }
+}
