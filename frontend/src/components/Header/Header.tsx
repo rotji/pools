@@ -33,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div className={styles.logoIcon}>
               <span className={styles.logoSymbol}>◉</span>
             </div>
-            <span className={styles.logoText}>Pools</span>
+            <span className={styles.logoText}>UnitedProfit</span>
           </div>
           <span className={styles.tagline}>Risk-sharing platform</span>
         </div>
