@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = () => {
               <div className={styles.logoIcon}>
                 <span className={styles.logoSymbol}>◉</span>
               </div>
-              <span className={styles.logoText}>Pools</span>
+              <span className={styles.logoText}>UnitedProfit</span>
             </div>
             
             <p className={styles.brandDescription}>
@@ -130,7 +130,7 @@ export const Footer: React.FC<FooterProps> = () => {
         <div className={styles.footerBottom}>
           <div className={styles.bottomContent}>
             <p className={styles.copyright}>
-              © {currentYear} Pools. Built on Stacks blockchain.
+              © {currentYear} UnitedProfit. Built on Stacks blockchain.
             </p>
             
             <div className={styles.bottomLinks}>
