@@ -6,6 +6,7 @@ export interface CreateGroupSelectorProps {
   onNavigateHome: () => void;
   onNavigateGroups: () => void;
   onNavigateCreate: () => void;
+  onNavigateProfile: () => void;
   onConnectWallet: () => void;
   isWalletConnected: boolean;
   walletAddress?: string;
@@ -17,6 +18,7 @@ export const CreateGroupSelector: React.FC<CreateGroupSelectorProps> = ({
   onNavigateHome,
   onNavigateGroups,
   onNavigateCreate,
+  onNavigateProfile,
   onConnectWallet,
   isWalletConnected,
   walletAddress,
@@ -29,6 +31,7 @@ export const CreateGroupSelector: React.FC<CreateGroupSelectorProps> = ({
         onNavigateHome={onNavigateHome}
         onNavigateGroups={onNavigateGroups}
         onNavigateCreate={onNavigateCreate}
+        onNavigateProfile={onNavigateProfile}
         onConnectWallet={onConnectWallet}
         isWalletConnected={isWalletConnected}
         walletAddress={walletAddress}

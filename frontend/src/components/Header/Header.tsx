@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from '../ui';
-import { ROUTES } from '../../constants';
 import styles from '../../styles/components/Header.module.css';
 
 export interface HeaderProps {
   onConnectWallet?: () => void;
+  onNavigateProfile?: () => void;
   isWalletConnected?: boolean;
   walletAddress?: string;
   onNavigateHome?: () => void;
@@ -14,6 +14,7 @@ export interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   onConnectWallet,
+  onNavigateProfile,
   isWalletConnected = false,
   walletAddress,
   onNavigateHome,
@@ -70,7 +71,11 @@ export const Header: React.FC<HeaderProps> = ({
                   {walletAddress ? truncateAddress(walletAddress) : 'Connected'}
                 </span>
               </div>
-              <Button variant="ghost" size="sm">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={onNavigateProfile}
+              >
                 Profile
               </Button>
             </div>

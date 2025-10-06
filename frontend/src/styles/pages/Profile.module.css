@@ -1,0 +1,535 @@
+/* Profile Page Styles */
+.profilePage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+}
+
+.main {
+  min-height: calc(100vh - 140px);
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Connect Wallet Prompt */
+.connectPrompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.connectCard {
+  max-width: 500px;
+  width: 100%;
+}
+
+.connectContent {
+  padding: 3rem;
+  text-align: center;
+}
+
+.connectIcon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.connectTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+}
+
+.connectDescription {
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.connectButton {
+  width: 100%;
+}
+
+/* Profile Header */
+.profileHeader {
+  margin-bottom: 3rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+}
+
+.avatarIcon {
+  font-size: 2rem;
+  color: white;
+}
+
+.userDetails {
+  flex: 1;
+}
+
+.userName {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+}
+
+.walletInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cbd5e1;
+}
+
+.walletLabel {
+  font-weight: 500;
+}
+
+.walletAddress {
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 0.9rem;
+  background: rgba(37, 99, 235, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+/* Quick Stats */
+.quickStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.statCard {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.statValue {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.statValue.positive {
+  color: #10b981;
+}
+
+.statValue.negative {
+  color: #ef4444;
+}
+
+.statLabel {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Tab Navigation */
+.tabNavigation {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 2rem;
+  background: rgba(15, 23, 42, 0.5);
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.tab:hover {
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tabActive {
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.tabActive:hover {
+  color: white;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+}
+
+/* Tab Content */
+.tabContent {
+  min-height: 400px;
+}
+
+.groupGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.groupCard {
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.groupCard:hover {
+  transform: translateY(-4px);
+}
+
+/* Group Card Header */
+.groupCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.groupInfo {
+  flex: 1;
+}
+
+.groupTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.groupMeta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.asset,
+.contribution,
+.participants {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.asset {
+  background: rgba(37, 99, 235, 0.2);
+  color: #60a5fa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
+
+.groupStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+/* Status Badges */
+.statusBadge,
+.riskBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusActive {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.statusWon {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.statusLost {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.riskLow {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.riskMedium {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.riskHigh {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* Group Card Body */
+.groupCardBody {
+  margin-bottom: 1.5rem;
+}
+
+.groupDates {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.dateItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dateLabel {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.dateValue {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.payoutSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.payoutLabel {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.payoutValue {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.payoutPositive {
+  color: #10b981;
+}
+
+.payoutNegative {
+  color: #ef4444;
+}
+
+/* Group Card Footer */
+.groupCardFooter {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.emptyCard {
+  max-width: 500px;
+  text-align: center;
+  padding: 3rem;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.emptyTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+}
+
+.emptyDescription {
+  color: #94a3b8;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.emptyAction {
+  width: 100%;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+  .groupGrid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+  
+  .quickStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .main {
+    padding: 1.5rem 0;
+  }
+  
+  .profileHeader {
+    margin-bottom: 2rem;
+  }
+  
+  .userInfo {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .avatar {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .userName {
+    font-size: 1.5rem;
+  }
+  
+  .quickStats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .tabNavigation {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .tab {
+    padding: 0.875rem 1rem;
+    text-align: center;
+  }
+  
+  .groupGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .groupCardHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .groupStatus {
+    align-items: flex-start;
+    flex-direction: row;
+  }
+  
+  .groupDates {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .groupCardFooter {
+    justify-content: stretch;
+  }
+  
+  .groupCardFooter button {
+    flex: 1;
+  }
+  
+  .connectContent {
+    padding: 2rem;
+  }
+  
+  .connectTitle {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .groupCard {
+    padding: 1rem;
+  }
+  
+  .statCard {
+    padding: 1rem;
+  }
+  
+  .statValue {
+    font-size: 1.5rem;
+  }
+  
+  .groupMeta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
