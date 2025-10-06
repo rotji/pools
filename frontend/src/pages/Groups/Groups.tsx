@@ -28,12 +28,22 @@ export interface GroupsProps {
   onConnectWallet?: () => void;
   isWalletConnected?: boolean;
   walletAddress?: string;
+  onNavigateHome?: () => void;
+  onNavigateGroups?: () => void;
+  onNavigateCreate?: () => void;
+  onNavigateProfile?: () => void;
+  onViewGroupDetail?: (groupId: string) => void;
 }
 
 export const Groups: React.FC<GroupsProps> = ({
   onConnectWallet,
   isWalletConnected = false,
-  walletAddress
+  walletAddress,
+  onNavigateHome,
+  onNavigateGroups,
+  onNavigateCreate,
+  onNavigateProfile,
+  onViewGroupDetail
 }) => {
   const [filteredGroups] = useState<Group[]>([...MOCK_GROUPS] as unknown as Group[]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,8 +59,9 @@ export const Groups: React.FC<GroupsProps> = ({
   };
 
   const handleCreateGroup = () => {
-    console.log('Navigate to create group');
-    // TODO: Navigate to create group page
+    if (onNavigateCreate) {
+      onNavigateCreate();
+    }
   };
 
   return (
@@ -59,6 +70,10 @@ export const Groups: React.FC<GroupsProps> = ({
         onConnectWallet={onConnectWallet}
         isWalletConnected={isWalletConnected}
         walletAddress={walletAddress}
+        onNavigateHome={onNavigateHome}
+        onNavigateGroups={onNavigateGroups}
+        onNavigateCreate={onNavigateCreate}
+        onNavigateProfile={onNavigateProfile}
       />
       
       <main className={styles.main}>
@@ -95,6 +110,7 @@ export const Groups: React.FC<GroupsProps> = ({
                 key={group.id}
                 group={group}
                 onJoin={handleJoinGroup}
+                onViewDetail={onViewGroupDetail}
                 isWalletConnected={isWalletConnected}
               />
             ))}

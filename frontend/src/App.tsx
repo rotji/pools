@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LandingPage } from './pages/Landing';
-import { Groups } from './pages/Groups/Groups-new';
+import { Groups } from './pages/Groups';
 import GroupDetail from './pages/GroupDetail/GroupDetail';
 import { CreatePublicGroup, CreatePrivateGroup, CreateGroupSelector } from './pages/CreateGroup';
 import { Profile } from './pages';
