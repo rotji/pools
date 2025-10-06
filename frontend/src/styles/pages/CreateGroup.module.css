@@ -352,6 +352,121 @@
   margin: 0;
 }
 
+/* Private Group Specific Styles */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  accent-color: #60a5fa;
+}
+
+.checkboxText {
+  font-size: 1rem;
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+.helpText {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid rgba(96, 165, 250, 0.3);
+}
+
+/* Email Invitation Styles */
+.emailInputContainer {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.emailInputContainer .input {
+  flex: 1;
+}
+
+.addEmailButton {
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.emailList {
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.emailListHeader {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.emailItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.emailItem:last-child {
+  margin-bottom: 0;
+}
+
+.emailText {
+  font-size: 0.875rem;
+  color: #f3f4f6;
+  font-family: 'Courier New', monospace;
+}
+
+.removeEmailButton {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.removeEmailButton:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: scale(1.1);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .content {
@@ -428,5 +543,146 @@
   
   .riskDisclaimer {
     padding: 1rem;
+  }
+}
+
+/* Create Group Selector Styles */
+.selectorGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.selectorCard {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.selectorCard:hover {
+  transform: translateY(-4px);
+}
+
+.cardContent {
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.iconContainer {
+  margin-bottom: 1rem;
+}
+
+.icon {
+  font-size: 3rem;
+  display: block;
+}
+
+.cardTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.cardBody {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+.cardDescription {
+  color: #e2e8f0;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.featureIcon {
+  margin-right: 0.75rem;
+  color: #10b981;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.cardFooter {
+  margin-top: auto;
+}
+
+.selectButton {
+  width: 100%;
+}
+
+.helpSection {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.helpText {
+  color: #e2e8f0;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Mobile Responsiveness for Selector */
+@media (max-width: 768px) {
+  .selectorGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .cardContent {
+    padding: 1.5rem;
+  }
+  
+  .icon {
+    font-size: 2.5rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.25rem;
   }
 }
