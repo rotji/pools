@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { LandingPage } from './pages/Landing';
 import { Groups } from './pages/Groups/Groups-new';
 import GroupDetail from './pages/GroupDetail/GroupDetail';
+import { CreatePublicGroup } from './pages/CreateGroup';
 
 type PageType = 'landing' | 'groups' | 'create-public' | 'create-private' | 'profile' | 'group-detail';
 
@@ -41,20 +42,7 @@ function App() {
   }
 
   if (currentPage === 'create-public') {
-    return (
-      <div style={{ padding: '100px 20px', textAlign: 'center' }}>
-        <h1>Create Public Group Page</h1>
-        <p>Open to anyone - This page will be built next!</p>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
-          <button onClick={() => setCurrentPage('create-private')} style={{ padding: '10px 20px' }}>
-            Switch to Private
-          </button>
-          <button onClick={() => setCurrentPage('landing')} style={{ padding: '10px 20px' }}>
-            Back to Home
-          </button>
-        </div>
-      </div>
-    );
+    return <CreatePublicGroup {...navigationProps} />;
   }
 
   if (currentPage === 'create-private') {
