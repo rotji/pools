@@ -4,6 +4,7 @@ import { Groups } from './pages/Groups';
 import GroupDetail from './pages/GroupDetail/GroupDetail';
 import { CreatePublicGroup, CreatePrivateGroup, CreateGroupSelector } from './pages/CreateGroup';
 import { Profile } from './pages';
+import { WalletConnect } from './components';
 
 type PageType = 'landing' | 'groups' | 'create' | 'create-public' | 'create-private' | 'profile' | 'group-detail';
 
@@ -12,12 +13,23 @@ function App() {
   const [selectedGroupId, setSelectedGroupId] = useState<string>();
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string>();
+  const [showWalletModal, setShowWalletModal] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const handleConnectWallet = () => {
-    // TODO: Implement actual wallet connection with Stacks
-    console.log('Connecting wallet...');
+    setShowWalletModal(true);
+  };
+
+  const handleWalletConnected = (address: string) => {
     setIsWalletConnected(true);
-    setWalletAddress('ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM');
+    setWalletAddress(address);
+    setIsConnecting(false);
+    setShowWalletModal(false);
+  };
+
+  const handleCloseWalletModal = () => {
+    setShowWalletModal(false);
+    setIsConnecting(false);
   };
 
   const handleViewGroupDetail = (groupId: string) => {
@@ -65,7 +77,19 @@ function App() {
     return <Profile {...navigationProps} />;
   }
 
-  return <LandingPage {...navigationProps} />;
+  return (
+    <>
+      <LandingPage {...navigationProps} />
+      
+      {/* Wallet Connect Modal */}
+      <WalletConnect
+        isOpen={showWalletModal}
+        onClose={handleCloseWalletModal}
+        onConnect={handleWalletConnected}
+        isConnecting={isConnecting}
+      />
+    </>
+  );
 }
 
 export default App;
