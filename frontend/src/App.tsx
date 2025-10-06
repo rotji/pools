@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { LandingPage } from './pages/Landing';
 import { Groups } from './pages/Groups/Groups-new';
+import GroupDetail from './pages/GroupDetail/GroupDetail';
 
-type PageType = 'landing' | 'groups' | 'create-public' | 'create-private' | 'profile';
+type PageType = 'landing' | 'groups' | 'create-public' | 'create-private' | 'profile' | 'group-detail';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
+  const [selectedGroupId, setSelectedGroupId] = useState<string>();
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string>();
 
@@ -14,6 +16,11 @@ function App() {
     console.log('Connecting wallet...');
     setIsWalletConnected(true);
     setWalletAddress('ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM');
+  };
+
+  const handleViewGroupDetail = (groupId: string) => {
+    setSelectedGroupId(groupId);
+    setCurrentPage('group-detail');
   };
 
   const navigationProps = {
@@ -26,7 +33,11 @@ function App() {
   };
 
   if (currentPage === 'groups') {
-    return <Groups {...navigationProps} />;
+    return <Groups {...navigationProps} onViewGroupDetail={handleViewGroupDetail} />;
+  }
+
+  if (currentPage === 'group-detail') {
+    return <GroupDetail {...navigationProps} groupId={selectedGroupId} />;
   }
 
   if (currentPage === 'create-public') {

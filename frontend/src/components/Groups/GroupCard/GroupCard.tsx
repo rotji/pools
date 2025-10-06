@@ -23,12 +23,14 @@ export interface Group {
 export interface GroupCardProps {
   group: Group;
   onJoin: (groupId: string) => void;
+  onViewDetail?: (groupId: string) => void;
   isWalletConnected: boolean;
 }
 
 export const GroupCard: React.FC<GroupCardProps> = ({
   group,
   onJoin,
+  onViewDetail,
   isWalletConnected
 }) => {
   const getRiskColor = (risk: string) => {
@@ -127,6 +129,15 @@ export const GroupCard: React.FC<GroupCardProps> = ({
       </div>
 
       <div className={styles.actions}>
+        <Button 
+          variant="ghost"
+          size="md"
+          onClick={() => onViewDetail?.(group.id)}
+          className={styles.viewButton}
+        >
+          View Details
+        </Button>
+        
         {isJoinable ? (
           <Button 
             variant="primary"
@@ -142,7 +153,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({
             variant="ghost"
             size="md"
             disabled
-            className={styles.viewButton}
+            className={styles.disabledButton}
           >
             Private - Invite Only
           </Button>
@@ -151,7 +162,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({
             variant="ghost"
             size="md"
             disabled
-            className={styles.viewButton}
+            className={styles.disabledButton}
           >
             {group.status === 'completed' ? 'View Results' : 
              group.status === 'settling' ? 'Settling...' : 'Not Available'}
