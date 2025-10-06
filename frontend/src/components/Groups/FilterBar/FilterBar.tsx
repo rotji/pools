@@ -5,6 +5,7 @@ import styles from '../../../styles/components/Groups/FilterBar.module.css';
 export interface FilterOptions {
   status: string[];
   riskLevel: string[];
+  groupType: string[];
   contributionRange: [number, number];
   sortBy: string;
 }
@@ -23,6 +24,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   const [activeFilters, setActiveFilters] = useState<FilterOptions>({
     status: [],
     riskLevel: [],
+    groupType: [],
     contributionRange: [0, 1000],
     sortBy: 'newest'
   });
@@ -39,6 +41,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     { value: 'high', label: 'High Risk', color: '#ef4444' }
   ];
 
+  const typeOptions = [
+    { value: 'public', label: 'Public', color: '#10b981' },
+    { value: 'private', label: 'Private', color: '#8b5cf6' }
+  ];
+
   const sortOptions = [
     { value: 'newest', label: 'Newest First' },
     { value: 'oldest', label: 'Oldest First' },
@@ -49,7 +56,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   ];
 
   const toggleFilter = (type: keyof FilterOptions, value: string) => {
-    if (type === 'status' || type === 'riskLevel') {
+    if (type === 'status' || type === 'riskLevel' || type === 'groupType') {
       const currentValues = activeFilters[type] as string[];
       const newValues = currentValues.includes(value)
         ? currentValues.filter(v => v !== value)
@@ -71,6 +78,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     const defaultFilters: FilterOptions = {
       status: [],
       riskLevel: [],
+      groupType: [],
       contributionRange: [0, 1000],
       sortBy: 'newest'
     };
@@ -82,6 +90,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   const hasActiveFilters = 
     activeFilters.status.length > 0 || 
     activeFilters.riskLevel.length > 0 ||
+    activeFilters.groupType.length > 0 ||
     searchTerm.length > 0;
 
   return (
@@ -139,6 +148,28 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                   style={{
                     borderColor: activeFilters.riskLevel.includes(option.value) ? option.color : undefined,
                     backgroundColor: activeFilters.riskLevel.includes(option.value) ? `${option.color}20` : undefined
+                  }}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Group Type Filters */}
+          <div className={styles.filterGroup}>
+            <span className={styles.filterLabel}>Type:</span>
+            <div className={styles.filterOptions}>
+              {typeOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => toggleFilter('groupType', option.value)}
+                  className={`${styles.filterChip} ${
+                    activeFilters.groupType.includes(option.value) ? styles.active : ''
+                  }`}
+                  style={{
+                    borderColor: activeFilters.groupType.includes(option.value) ? option.color : undefined,
+                    backgroundColor: activeFilters.groupType.includes(option.value) ? `${option.color}20` : undefined
                   }}
                 >
                   {option.label}
