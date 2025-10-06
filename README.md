@@ -19,13 +19,30 @@ UnitedProfit is a decentralized group investment pooling platform where particip
 3. **Share Results**: All profits and losses are distributed equally among group members
 4. **Transparent Settlement**: Smart contracts ensure fair, automatic payouts
 
-## 🛠️ Technical Stack
+## 🎨 Current Features (October 2025)
+
+### ✅ Completed UI Components
+- **🏠 Landing Page**: Hero section with "Invest Together. Win Together." tagline
+- **📋 Groups List**: Browse and filter investment groups with search functionality
+- **📊 Group Detail**: Comprehensive participant management and statistics dashboard
+- **🎨 Design System**: "Futuristic Trust" theme with Electric Blue (#2563EB) and Emerald Green (#10B981)
+- **� Mobile Responsive**: Optimized for all screen sizes with proper breakpoints
+
+### 🎯 Key UI/UX Features
+- **Glass Morphism Effects**: Modern frosted glass design with backdrop blur
+- **Smart Navigation**: Functional routing between all major pages
+- **Wallet Integration**: Ready for Hiro wallet connection
+- **Risk Disclosure**: Legal compliance with comprehensive risk warnings
+- **Participant Management**: Avatar-based member display with status tracking
+
+## �🛠️ Technical Stack
 
 - **Frontend**: Vite + React + TypeScript + CSS Modules
 - **Backend**: Node.js + Express + TypeScript + PostgreSQL
 - **Blockchain**: Stacks + Clarity Smart Contracts
 - **Authentication**: Hiro Wallet + stacks.js
 - **Oracle Service**: Custom attestation system for off-chain data
+- **Design**: Mobile-first responsive with glass morphism effects
 
 ## 📁 Monorepo Structure
 
@@ -54,7 +71,7 @@ All participants understand that investing involves risk, including possible tot
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL
+- PostgreSQL (for future backend integration)
 - Clarinet (for Clarity contract development)
 - Hiro Wallet (for authentication)
 
@@ -62,39 +79,89 @@ All participants understand that investing involves risk, including possible tot
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/equipools.git
-cd equipools
+git clone https://github.com/rotji/pools.git
+cd pools
 
-# Install dependencies for all services
-npm run install:all
+# Navigate to frontend and install dependencies
+cd frontend
+npm install
 
-# Start all services in development mode
-npm run dev:all
+# Start the development server
+npm run dev
+# or
+npx vite
 
-# Run tests
-npm run test:all
+# Open your browser to http://localhost:5173
+```
+
+### 🎮 Current Demo Features
+
+You can currently test:
+1. **Landing Page**: Beautiful hero section with modern design
+2. **Groups List**: Browse 8 mock investment groups with filtering
+3. **Group Detail**: Click "View Details" on any group to see:
+   - Participant management with avatars
+   - Group statistics and pool information
+   - Join/leave functionality (mock)
+   - Risk disclosure modal
+4. **Mobile Testing**: Resize browser or test on mobile devices
+
+### 🔧 Development Commands
+
+```bash
+# Frontend development
+cd frontend
+npm run dev          # Start dev server
+npm run build        # Build for production
+npm run lint         # Run ESLint
+
+# Smart contracts (when ready)
+cd contracts
+clarinet test        # Run contract tests
+clarinet check       # Check contract syntax
 ```
 
 ## 📋 Development Phases
 
-### Phase 1: Basic MVP
-- [x] Monorepo structure
-- [ ] Core tooling setup
-- [ ] Smart contract skeletons
-- [ ] Basic frontend with wallet connection
-- [ ] Backend API infrastructure
+### ✅ Phase 1: Basic MVP (COMPLETED)
+- ✅ Monorepo structure setup
+- ✅ Core tooling configuration (Vite, React, TypeScript, CSS Modules)
+- ✅ Smart contract skeletons (Clarity contracts with Clarinet)
+- ✅ Complete frontend UI implementation:
+  - Landing page with hero section and "Futuristic Trust" design
+  - Groups list with filtering and search functionality
+  - Group detail page with participant management
+  - Mobile-responsive design across all components
+  - Glass morphism effects and modern animations
 
-### Phase 2: Medium Features
-- [ ] Oracle automation
-- [ ] Multi-token support
-- [ ] Advanced UI/UX
-- [ ] Real trading integrations
+### 🚧 Phase 2: Frontend Enhancement (IN PROGRESS)
+- 🚧 Create Public Group page (currently building)
+- ⏳ Create Private Group page with invitation system
+- ⏳ User profile page with tabs (Active/Past/Settings)
+- ⏳ Enhanced wallet connection modal
+- ⏳ Final mobile responsiveness audit
 
-### Phase 3: Complex Production
-- [ ] Multi-signature oracles
-- [ ] Mobile apps
-- [ ] Compliance framework
-- [ ] Mainnet deployment
+### 📅 Phase 3: Backend & Smart Contract Integration
+- ⏳ Backend API infrastructure
+- ⏳ Oracle automation service
+- ⏳ Real smart contract deployment on Stacks testnet
+- ⏳ Frontend-contract integration with stacks.js
+
+### 🚀 Phase 4: Production Features
+- ⏳ Multi-token support beyond STX
+- ⏳ Real trading platform integrations
+- ⏳ Advanced UI animations and gamification
+- ⏳ Mainnet deployment and security audits
+
+## 📱 Mobile Responsiveness
+
+All components are built with **mobile-first design**:
+
+- **Breakpoints**: 1024px (desktop), 768px (tablet), 480px (mobile)
+- **Touch Optimization**: 44px minimum touch targets
+- **Performance**: Optimized images and smooth animations
+- **Accessibility**: Screen reader support and keyboard navigation
+- **Cross-device Testing**: Verified on phones, tablets, and desktops
 
 ## 🤝 Contributing
 
