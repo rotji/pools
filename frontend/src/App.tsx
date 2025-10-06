@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { LandingPage } from './pages/Landing';
 import { Groups } from './pages/Groups/Groups-new';
 import GroupDetail from './pages/GroupDetail/GroupDetail';
-import { CreatePublicGroup } from './pages/CreateGroup';
+import { CreatePublicGroup, CreatePrivateGroup, CreateGroupSelector } from './pages/CreateGroup';
 
-type PageType = 'landing' | 'groups' | 'create-public' | 'create-private' | 'profile' | 'group-detail';
+type PageType = 'landing' | 'groups' | 'create' | 'create-public' | 'create-private' | 'profile' | 'group-detail';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -27,7 +27,7 @@ function App() {
   const navigationProps = {
     onNavigateHome: () => setCurrentPage('landing'),
     onNavigateGroups: () => setCurrentPage('groups'),
-    onNavigateCreate: () => setCurrentPage('create-public'), // Default to public
+    onNavigateCreate: () => setCurrentPage('create'), // Go to selector page
     onConnectWallet: handleConnectWallet,
     isWalletConnected,
     walletAddress
@@ -41,25 +41,22 @@ function App() {
     return <GroupDetail {...navigationProps} groupId={selectedGroupId} />;
   }
 
+  if (currentPage === 'create') {
+    return (
+      <CreateGroupSelector 
+        {...navigationProps} 
+        onSelectPublic={() => setCurrentPage('create-public')}
+        onSelectPrivate={() => setCurrentPage('create-private')}
+      />
+    );
+  }
+
   if (currentPage === 'create-public') {
     return <CreatePublicGroup {...navigationProps} />;
   }
 
   if (currentPage === 'create-private') {
-    return (
-      <div style={{ padding: '100px 20px', textAlign: 'center' }}>
-        <h1>Create Private Group Page</h1>
-        <p>Invite-only groups - This page will be built next!</p>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
-          <button onClick={() => setCurrentPage('create-public')} style={{ padding: '10px 20px' }}>
-            Switch to Public
-          </button>
-          <button onClick={() => setCurrentPage('landing')} style={{ padding: '10px 20px' }}>
-            Back to Home
-          </button>
-        </div>
-      </div>
-    );
+    return <CreatePrivateGroup {...navigationProps} />;
   }
 
   return <LandingPage {...navigationProps} />;
