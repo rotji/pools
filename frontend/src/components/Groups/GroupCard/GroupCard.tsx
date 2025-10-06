@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../ui';
-import type { GroupStatus } from '../../../constants';
+import type { GroupStatus, GroupType } from '../../../constants';
 import styles from '../../../styles/components/Groups/GroupCard.module.css';
 
 export interface Group {
@@ -10,11 +10,10 @@ export interface Group {
   contributionAmount: number;
   currency: string;
   currentMembers: number;
-  maxMembers: number;
+  type: GroupType;
   status: GroupStatus;
   timeRemaining: string;
   totalContributed: number;
-  targetAmount: number;
   riskLevel: 'low' | 'medium' | 'high';
   createdBy: string;
   createdAt: Date;
@@ -32,8 +31,6 @@ export const GroupCard: React.FC<GroupCardProps> = ({
   onJoin,
   isWalletConnected
 }) => {
-  const progressPercentage = (group.totalContributed / group.targetAmount) * 100;
-  
   const getRiskColor = (risk: string) => {
     switch (risk) {
       case 'low': return '#10b981';
@@ -53,7 +50,15 @@ export const GroupCard: React.FC<GroupCardProps> = ({
     }
   };
 
-  const isJoinable = group.status === 'active' && group.currentMembers < group.maxMembers;
+  const getTypeColor = (type: GroupType) => {
+    switch (type) {
+      case 'public': return '#10b981';
+      case 'private': return '#8b5cf6';
+      default: return '#6b7280';
+    }
+  };
+
+  const isJoinable = group.status === 'active' && group.type === 'public';
 
   return (
     <div className={styles.groupCard}>
@@ -66,6 +71,12 @@ export const GroupCard: React.FC<GroupCardProps> = ({
               style={{ backgroundColor: getStatusColor(group.status) }}
             >
               {group.status}
+            </span>
+            <span 
+              className={styles.typeBadge}
+              style={{ backgroundColor: getTypeColor(group.type) }}
+            >
+              {group.type}
             </span>
             <span 
               className={styles.riskBadge}
@@ -93,27 +104,18 @@ export const GroupCard: React.FC<GroupCardProps> = ({
         <div className={styles.statItem}>
           <span className={styles.statLabel}>Members</span>
           <span className={styles.statValue}>
-            {group.currentMembers}/{group.maxMembers}
+            {group.currentMembers} {group.currentMembers === 1 ? 'member' : 'members'}
           </span>
         </div>
       </div>
 
-      <div className={styles.progress}>
-        <div className={styles.progressHeader}>
-          <span className={styles.progressLabel}>Progress</span>
-          <span className={styles.progressAmount}>
-            {group.totalContributed}/{group.targetAmount} {group.currency}
+      <div className={styles.totalSection}>
+        <div className={styles.totalHeader}>
+          <span className={styles.totalLabel}>Total Pool</span>
+          <span className={styles.totalAmount}>
+            {group.totalContributed} {group.currency}
           </span>
         </div>
-        <div className={styles.progressBar}>
-          <div 
-            className={styles.progressFill}
-            style={{ width: `${Math.min(progressPercentage, 100)}%` }}
-          />
-        </div>
-        <span className={styles.progressPercentage}>
-          {Math.round(progressPercentage)}% funded
-        </span>
       </div>
 
       <div className={styles.tags}>
@@ -135,6 +137,15 @@ export const GroupCard: React.FC<GroupCardProps> = ({
           >
             {isWalletConnected ? 'Join Group' : 'Connect Wallet to Join'}
           </Button>
+        ) : group.type === 'private' && group.status === 'active' ? (
+          <Button 
+            variant="ghost"
+            size="md"
+            disabled
+            className={styles.viewButton}
+          >
+            Private - Invite Only
+          </Button>
         ) : (
           <Button 
             variant="ghost"
@@ -143,7 +154,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({
             className={styles.viewButton}
           >
             {group.status === 'completed' ? 'View Results' : 
-             group.status === 'settling' ? 'Settling...' : 'Group Full'}
+             group.status === 'settling' ? 'Settling...' : 'Not Available'}
           </Button>
         )}
       </div>
