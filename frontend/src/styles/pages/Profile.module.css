@@ -7,7 +7,7 @@
 
 .main {
   min-height: calc(100vh - 140px);
-  padding: 2rem 0;
+  padding: 6rem 0 2rem 0; /* Increased top padding to clear header */
 }
 
 .container {

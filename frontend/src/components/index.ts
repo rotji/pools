@@ -7,6 +7,9 @@ export { Header } from './Header';
 export { Footer } from './Footer';
 export { HeroSection } from './HeroSection';
 
+// Export utility components
+export { WalletConnect } from './WalletConnect';
+
 // Export types
 export type { NavigationProps } from './Navigation';
 export type { HeaderProps } from './Header';
