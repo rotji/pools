@@ -8,6 +8,7 @@ export interface LandingPageProps {
   onNavigateHome?: () => void;
   onNavigateGroups?: () => void;
   onNavigateCreate?: () => void;
+  onNavigateProfile?: () => void;
   onConnectWallet?: () => void;
   isWalletConnected?: boolean;
   walletAddress?: string;
@@ -17,6 +18,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onNavigateHome,
   onNavigateGroups, 
   onNavigateCreate,
+  onNavigateProfile,
   onConnectWallet,
   isWalletConnected,
   walletAddress
@@ -38,6 +40,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         onNavigateHome={onNavigateHome}
         onNavigateGroups={onNavigateGroups}
         onNavigateCreate={onNavigateCreate}
+        onNavigateProfile={onNavigateProfile}
         isWalletConnected={isWalletConnected}
         walletAddress={walletAddress}
       />

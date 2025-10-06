@@ -14,11 +14,10 @@ export interface Group {
   contributionAmount: number;
   currency: string;
   currentMembers: number;
-  maxMembers: number;
+  type: 'public' | 'private';
   status: GroupStatus;
   timeRemaining: string;
   totalContributed: number;
-  targetAmount: number;
   riskLevel: 'low' | 'medium' | 'high';
   createdBy: string;
   createdAt: Date;
@@ -36,22 +35,12 @@ export const Groups: React.FC<GroupsProps> = ({
   isWalletConnected = false,
   walletAddress
 }) => {
-  const [filteredGroups] = useState<Group[]>([...MOCK_GROUPS] as Group[]);
+  const [filteredGroups] = useState<Group[]>([...MOCK_GROUPS] as unknown as Group[]);
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleFilter = (filters: any) => {
     // TODO: Implement filtering logic
     console.log('Filters applied:', filters);
-  };
-
-  const handleJoinGroup = (groupId: string) => {
-    console.log('Joining group:', groupId);
-    // TODO: Implement join group logic
-  };
-
-  const handleCreateGroup = () => {
-    console.log('Navigate to create group');
-    // TODO: Navigate to create group page
   };
 
   const handleJoinGroup = (groupId: string) => {

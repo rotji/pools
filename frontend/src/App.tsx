@@ -3,6 +3,7 @@ import { LandingPage } from './pages/Landing';
 import { Groups } from './pages/Groups/Groups-new';
 import GroupDetail from './pages/GroupDetail/GroupDetail';
 import { CreatePublicGroup, CreatePrivateGroup, CreateGroupSelector } from './pages/CreateGroup';
+import { Profile } from './pages';
 
 type PageType = 'landing' | 'groups' | 'create' | 'create-public' | 'create-private' | 'profile' | 'group-detail';
 
@@ -28,6 +29,7 @@ function App() {
     onNavigateHome: () => setCurrentPage('landing'),
     onNavigateGroups: () => setCurrentPage('groups'),
     onNavigateCreate: () => setCurrentPage('create'), // Go to selector page
+    onNavigateProfile: () => setCurrentPage('profile'),
     onConnectWallet: handleConnectWallet,
     isWalletConnected,
     walletAddress
@@ -57,6 +59,10 @@ function App() {
 
   if (currentPage === 'create-private') {
     return <CreatePrivateGroup {...navigationProps} />;
+  }
+
+  if (currentPage === 'profile') {
+    return <Profile {...navigationProps} />;
   }
 
   return <LandingPage {...navigationProps} />;

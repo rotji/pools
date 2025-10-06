@@ -5,12 +5,14 @@ import styles from '../../styles/components/Navigation.module.css';
 
 export interface NavigationProps {
   onConnectWallet?: () => void;
+  onNavigateProfile?: () => void;
   isWalletConnected?: boolean;
   walletAddress?: string;
 }
 
 export const Navigation: React.FC<NavigationProps> = ({
   onConnectWallet,
+  onNavigateProfile,
   isWalletConnected = false,
   walletAddress
 }) => {
@@ -46,7 +48,11 @@ export const Navigation: React.FC<NavigationProps> = ({
               <span className={styles.walletAddress}>
                 {walletAddress ? truncateAddress(walletAddress) : 'Connected'}
               </span>
-              <Button variant="secondary" size="sm">
+              <Button 
+                variant="secondary" 
+                size="sm"
+                onClick={onNavigateProfile}
+              >
                 Profile
               </Button>
             </div>
