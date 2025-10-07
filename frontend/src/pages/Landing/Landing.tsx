@@ -9,6 +9,7 @@ export interface LandingPageProps {
   onNavigateGroups?: () => void;
   onNavigateCreate?: () => void;
   onNavigateProfile?: () => void;
+  onNavigateApiTest?: () => void;
   onConnectWallet?: () => void;
   isWalletConnected?: boolean;
   walletAddress?: string;
@@ -19,6 +20,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onNavigateGroups, 
   onNavigateCreate,
   onNavigateProfile,
+  onNavigateApiTest,
   onConnectWallet,
   isWalletConnected,
   walletAddress
@@ -49,6 +51,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <HeroSection 
           onConnectWallet={handleConnectWallet}
           onLearnMore={handleLearnMore}
+          onApiTest={onNavigateApiTest}
         />
         
         {/* Future sections will go here:
