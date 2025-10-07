@@ -4,16 +4,22 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import { config } from 'dotenv';
 
+// Import database connection
+import { testConnection } from './config/database';
+
 // Import routes
-import groupRoutes from './routes/groups.js';
-import userRoutes from './routes/users.js';
-import healthRoutes from './routes/health.js';
+import groupRoutes from './routes/groups';
+import userRoutes from './routes/users';
+import healthRoutes from './routes/health';
 
 // Load environment variables
 config();
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3001;
+const PORT = Number(process.env.PORT) || 3002;
+
+// Test database connection on startup
+testConnection().catch(console.error);
 
 // Middleware
 app.use(helmet());
