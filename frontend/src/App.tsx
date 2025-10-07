@@ -5,8 +5,9 @@ import GroupDetail from './pages/GroupDetail/GroupDetail';
 import { CreatePublicGroup, CreatePrivateGroup, CreateGroupSelector } from './pages/CreateGroup';
 import { Profile } from './pages';
 import { WalletConnect } from './components';
+import ApiTest from './components/ApiTest';
 
-type PageType = 'landing' | 'groups' | 'create' | 'create-public' | 'create-private' | 'profile' | 'group-detail';
+type PageType = 'landing' | 'groups' | 'create' | 'create-public' | 'create-private' | 'profile' | 'group-detail' | 'api-test';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -42,6 +43,7 @@ function App() {
     onNavigateGroups: () => setCurrentPage('groups'),
     onNavigateCreate: () => setCurrentPage('create'), // Go to selector page
     onNavigateProfile: () => setCurrentPage('profile'),
+    onNavigateApiTest: () => setCurrentPage('api-test'),
     onConnectWallet: handleConnectWallet,
     isWalletConnected,
     walletAddress
@@ -75,6 +77,10 @@ function App() {
 
   if (currentPage === 'profile') {
     return <Profile {...navigationProps} />;
+  }
+
+  if (currentPage === 'api-test') {
+    return <ApiTest />;
   }
 
   return (

@@ -6,11 +6,13 @@ import styles from '../../styles/components/HeroSection.module.css';
 export interface HeroSectionProps {
   onConnectWallet?: () => void;
   onLearnMore?: () => void;
+  onApiTest?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onConnectWallet,
-  onLearnMore
+  onLearnMore,
+  onApiTest
 }) => {
   const { hero, stats } = LANDING_PAGE_CONTENT;
   
@@ -58,6 +60,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 onClick={onLearnMore}
               >
                 {hero.secondaryCtaText}
+              </Button>
+              {/* Temporary API Test Button */}
+              <Button 
+                variant="secondary" 
+                size="sm"
+                onClick={onApiTest}
+                style={{ marginLeft: '1rem', fontSize: '0.8rem' }}
+              >
+                Test API
               </Button>
             </div>
 
