@@ -3,6 +3,7 @@ import { Header, Footer } from '../../components';
 import { Button } from '../../components/ui';
 import { MOCK_GROUPS } from '../../constants';
 import styles from '../../styles/pages/GroupDetail.module.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface GroupMember {
   id: string;
@@ -13,24 +14,17 @@ interface GroupMember {
 }
 
 interface GroupDetailProps {
-  onConnectWallet: () => void;
-  isWalletConnected?: boolean;
-  walletAddress?: string;
   onNavigateHome: () => void;
   onNavigateGroups: () => void;
   onNavigateCreate: () => void;
-  groupId?: string;
+  groupId: string;
 }
 
 const GroupDetail: React.FC<GroupDetailProps> = ({
-  onConnectWallet,
-  isWalletConnected = false,
-  walletAddress,
-  onNavigateHome,
   onNavigateGroups,
-  onNavigateCreate,
   groupId
 }) => {
+  const { isAuthenticated } = useAuth();
   const group = MOCK_GROUPS.find(g => g.id === groupId);
   const [showRiskModal, setShowRiskModal] = useState(false);
 
@@ -86,14 +80,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
   if (!group) {
     return (
       <div className={styles.container}>
-        <Header
-          onConnectWallet={onConnectWallet}
-          isWalletConnected={isWalletConnected}
-          walletAddress={walletAddress}
-          onNavigateHome={onNavigateHome}
-          onNavigateGroups={onNavigateGroups}
-          onNavigateCreate={onNavigateCreate}
-        />
+        <Header />
         <main className={styles.main}>
           <div className={styles.notFound}>
             <h1>Group Not Found</h1>
@@ -112,14 +99,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
 
   return (
     <div className={styles.container}>
-      <Header
-        onConnectWallet={onConnectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-        onNavigateHome={onNavigateHome}
-        onNavigateGroups={onNavigateGroups}
-        onNavigateCreate={onNavigateCreate}
-      />
+      <Header />
       
       <main className={styles.main}>
         {/* Back Navigation */}
@@ -245,14 +225,14 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
 
             {/* Action Buttons */}
             <div className={styles.actionButtons}>
-              {!isWalletConnected ? (
+              {!isAuthenticated ? (
                 <Button 
-                  onClick={onConnectWallet}
+                  onClick={() => alert('Please login to join this group')}
                   variant="primary"
                   size="lg"
                   className={styles.connectButton}
                 >
-                  Connect Wallet to Join
+                  Login to Join
                 </Button>
               ) : (
                 <>

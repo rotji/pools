@@ -3,39 +3,17 @@ import { Header, Footer, Button, GlowContainer } from '../../components';
 import styles from '../../styles/pages/CreateGroup.module.css';
 
 export interface CreateGroupSelectorProps {
-  onNavigateHome: () => void;
-  onNavigateGroups: () => void;
-  onNavigateCreate: () => void;
-  onNavigateProfile: () => void;
-  onConnectWallet: () => void;
-  isWalletConnected: boolean;
-  walletAddress?: string;
   onSelectPublic: () => void;
   onSelectPrivate: () => void;
 }
 
 export const CreateGroupSelector: React.FC<CreateGroupSelectorProps> = ({
-  onNavigateHome,
-  onNavigateGroups,
-  onNavigateCreate,
-  onNavigateProfile,
-  onConnectWallet,
-  isWalletConnected,
-  walletAddress,
   onSelectPublic,
   onSelectPrivate
 }) => {
   return (
     <div className={styles.createGroupPage}>
-      <Header 
-        onNavigateHome={onNavigateHome}
-        onNavigateGroups={onNavigateGroups}
-        onNavigateCreate={onNavigateCreate}
-        onNavigateProfile={onNavigateProfile}
-        onConnectWallet={onConnectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-      />
+      <Header />
 
       <main className={styles.main}>
         <div className={styles.container}>

@@ -4,15 +4,15 @@
  */
 
 import React, { useState } from 'react';
-import ApiTest from './components/ApiTest';
-import { UserProfile } from './components/auth/UserProfile';
-import { WalletConnect } from './components/auth/WalletConnect';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { Profile } from './pages';
-import { CreateGroupSelector, CreatePrivateGroup, CreatePublicGroup } from './pages/CreateGroup';
-import GroupDetail from './pages/GroupDetail/GroupDetail';
-import { Groups } from './pages/Groups';
+import { WalletConnect } from './components/auth/WalletConnect';
+import { UserProfile } from './components/auth/UserProfile';
 import { LandingPage } from './pages/Landing';
+import { Groups } from './pages/Groups';
+import GroupDetail from './pages/GroupDetail/GroupDetail';
+import { CreatePublicGroup, CreatePrivateGroup, CreateGroupSelector } from './pages/CreateGroup';
+import { Profile } from './pages';
+import ApiTest from './components/ApiTest';
 import type { User } from './services/userService';
 
 type PageType = 'landing' | 'groups' | 'create' | 'create-public' | 'create-private' | 'profile' | 'group-detail' | 'api-test';
@@ -86,7 +86,7 @@ const AppContent: React.FC = () => {
         </header>
 
         <main>
-          <WalletConnect
+          <WalletConnect 
             onAuthSuccess={(user: User) => {
               login(user);
               setAuthError('');
@@ -119,12 +119,12 @@ const AppContent: React.FC = () => {
     setCurrentPage('group-detail');
   };
 
-  // Navigation functions
   const navigationProps = {
     onNavigateHome: () => setCurrentPage('landing'),
     onNavigateGroups: () => setCurrentPage('groups'),
     onNavigateCreate: () => setCurrentPage('create'),
-    onNavigateProfile: () => setCurrentPage('profile')
+    onNavigateProfile: () => setCurrentPage('profile'),
+    onNavigateApiTest: () => setCurrentPage('api-test'),
   };
 
   const renderPage = () => {
@@ -133,21 +133,22 @@ const AppContent: React.FC = () => {
         return <Groups onViewGroupDetail={handleViewGroupDetail} />;
       case 'create':
         return (
-          <CreateGroupSelector
+          <CreateGroupSelector 
+            {...navigationProps}
             onSelectPublic={() => setCurrentPage('create-public')}
             onSelectPrivate={() => setCurrentPage('create-private')}
           />
         );
       case 'create-public':
-        return <CreatePublicGroup />;
+        return <CreatePublicGroup {...navigationProps} />;
       case 'create-private':
         return <CreatePrivateGroup {...navigationProps} />;
       case 'profile':
         return <Profile {...navigationProps} />;
       case 'group-detail':
         return selectedGroupId ? (
-          <GroupDetail
-            groupId={selectedGroupId}
+          <GroupDetail 
+            groupId={selectedGroupId} 
             {...navigationProps}
           />
         ) : (
@@ -156,7 +157,7 @@ const AppContent: React.FC = () => {
       case 'api-test':
         return <ApiTest />;
       default:
-        return <LandingPage />;
+        return <LandingPage {...navigationProps} />;
     }
   };
 
@@ -179,7 +180,7 @@ const AppContent: React.FC = () => {
           alignItems: 'center'
         }}>
           <div>
-            <h1
+            <h1 
               onClick={() => setCurrentPage('landing')}
               style={{
                 margin: '0',
@@ -194,67 +195,6 @@ const AppContent: React.FC = () => {
               🏊‍♀️ Investment Pools
             </h1>
           </div>
-
-          {/* Navigation Menu */}
-          <div style={{
-            display: 'flex',
-            gap: '2rem',
-            alignItems: 'center'
-          }}>
-            <button
-              onClick={() => setCurrentPage('landing')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: currentPage === 'landing' ? '#3b82f6' : '#6b7280',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: currentPage === 'landing' ? 'bold' : 'normal'
-              }}
-            >
-              🏠 Home
-            </button>
-            <button
-              onClick={() => setCurrentPage('groups')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: currentPage === 'groups' ? '#3b82f6' : '#6b7280',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: currentPage === 'groups' ? 'bold' : 'normal'
-              }}
-            >
-              📊 Groups
-            </button>
-            <button
-              onClick={() => setCurrentPage('create')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: currentPage === 'create' ? '#3b82f6' : '#6b7280',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: currentPage === 'create' ? 'bold' : 'normal'
-              }}
-            >
-              ➕ Create
-            </button>
-            <button
-              onClick={() => setCurrentPage('profile')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: currentPage === 'profile' ? '#3b82f6' : '#6b7280',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: currentPage === 'profile' ? 'bold' : 'normal'
-              }}
-            >
-              👤 Profile
-            </button>
-          </div>
-
           <div>
             <UserProfile />
           </div>

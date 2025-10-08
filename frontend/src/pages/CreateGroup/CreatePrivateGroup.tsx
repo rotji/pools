@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { Header, Footer } from '../../components';
 import { Button } from '../../components/ui';
 import styles from '../../styles/pages/CreateGroup.module.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface CreatePrivateGroupProps {
-  onConnectWallet: () => void;
-  isWalletConnected?: boolean;
-  walletAddress?: string;
   onNavigateHome: () => void;
   onNavigateGroups: () => void;
   onNavigateCreate: () => void;
@@ -85,13 +83,9 @@ const INVITE_METHODS = [
 ];
 
 const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
-  onConnectWallet,
-  isWalletConnected = false,
-  walletAddress,
-  onNavigateHome,
-  onNavigateGroups,
-  onNavigateCreate
+  onNavigateGroups
 }) => {
+  const { user, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState<PrivateGroupFormData>({
     title: '',
     description: '',
@@ -184,8 +178,8 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isWalletConnected) {
-      onConnectWallet();
+    if (!isAuthenticated) {
+      alert('Please log in to create a group');
       return;
     }
 
@@ -200,7 +194,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
         ...formData,
         contributionAmount: formData.contributionAmount === 'custom' ? customAmount : formData.contributionAmount,
         maxMembers: formData.maxMembers === 'custom' ? customMaxMembers : formData.maxMembers,
-        creator: walletAddress
+        creator: user?.username || user?.email
       });
 
       // Simulate API call
@@ -233,14 +227,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
 
   return (
     <div className={styles.container}>
-      <Header
-        onConnectWallet={onConnectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-        onNavigateHome={onNavigateHome}
-        onNavigateGroups={onNavigateGroups}
-        onNavigateCreate={onNavigateCreate}
-      />
+      <Header />
       
       <main className={styles.main}>
         <div className={styles.content}>
@@ -581,7 +568,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                     className={styles.submitButton}
                   >
                     {isSubmitting ? 'Creating Private Group...' : 
-                     !isWalletConnected ? 'Connect Wallet to Create' : 
+                     !isAuthenticated ? 'Login to Create' : 
                      'Create Private Group'}
                   </Button>
                 </div>

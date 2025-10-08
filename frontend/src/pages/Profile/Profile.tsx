@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Header, Footer, Button, GlowContainer } from '../../components';
 import styles from '../../styles/pages/Profile.module.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 export interface ProfileProps {
   onNavigateHome: () => void;
   onNavigateGroups: () => void;
   onNavigateCreate: () => void;
   onNavigateProfile: () => void;
-  onConnectWallet: () => void;
-  isWalletConnected: boolean;
-  walletAddress?: string;
 }
 
 type ProfileTab = 'active' | 'settled' | 'history';
@@ -97,14 +95,9 @@ const mockHistoryGroups: GroupPosition[] = [
 ];
 
 export const Profile: React.FC<ProfileProps> = ({
-  onNavigateHome,
-  onNavigateGroups,
-  onNavigateCreate,
-  onNavigateProfile,
-  onConnectWallet,
-  isWalletConnected,
-  walletAddress
+  onNavigateGroups
 }) => {
+  const { user, isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState<ProfileTab>('active');
 
   const formatDate = (date: Date) => {
@@ -225,18 +218,10 @@ export const Profile: React.FC<ProfileProps> = ({
 
   const stats = getTabStats();
 
-  if (!isWalletConnected) {
+  if (!isAuthenticated) {
     return (
       <div className={styles.profilePage}>
-        <Header 
-          onNavigateHome={onNavigateHome}
-          onNavigateGroups={onNavigateGroups}
-          onNavigateCreate={onNavigateCreate}
-          onNavigateProfile={onNavigateProfile}
-          onConnectWallet={onConnectWallet}
-          isWalletConnected={isWalletConnected}
-          walletAddress={walletAddress}
-        />
+        <Header />
 
         <main className={styles.main}>
           <div className={styles.container}>
@@ -251,10 +236,10 @@ export const Profile: React.FC<ProfileProps> = ({
                   <Button 
                     variant="primary" 
                     size="lg" 
-                    onClick={onConnectWallet}
+                    onClick={() => alert('Please login to view your profile')}
                     className={styles.connectButton}
                   >
-                    Connect Wallet
+                    Login Required
                   </Button>
                 </div>
               </GlowContainer>
@@ -269,15 +254,7 @@ export const Profile: React.FC<ProfileProps> = ({
 
   return (
     <div className={styles.profilePage}>
-      <Header 
-        onNavigateHome={onNavigateHome}
-        onNavigateGroups={onNavigateGroups}
-        onNavigateCreate={onNavigateCreate}
-        onNavigateProfile={onNavigateProfile}
-        onConnectWallet={onConnectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-      />
+      <Header />
 
       <main className={styles.main}>
         <div className={styles.container}>
@@ -290,8 +267,8 @@ export const Profile: React.FC<ProfileProps> = ({
               <div className={styles.userDetails}>
                 <h1 className={styles.userName}>My Profile</h1>
                 <p className={styles.walletInfo}>
-                  <span className={styles.walletLabel}>Wallet:</span>
-                  <span className={styles.walletAddress}>{walletAddress}</span>
+                  <span className={styles.walletLabel}>Account:</span>
+                  <span className={styles.walletAddress}>{user?.email || user?.username}</span>
                 </p>
               </div>
             </div>
