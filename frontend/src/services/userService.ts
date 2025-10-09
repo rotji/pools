@@ -46,7 +46,7 @@ export class UserService {
    */
   static async authenticate(authData: AuthData): Promise<ApiResponse<AuthResponse>> {
     const response = await api.post<any>('/auth/login', authData);
-    
+
     // Store auth token if successful
     if (response.success && (response as any).token) {
       localStorage.setItem('authToken', (response as any).token);
@@ -69,7 +69,7 @@ export class UserService {
    */
   static async register(authData: AuthData & { username?: string }): Promise<ApiResponse<AuthResponse>> {
     const response = await api.post<any>('/auth/register', authData);
-    
+
     // Store auth token if successful
     if (response.success && (response as any).token) {
       localStorage.setItem('authToken', (response as any).token);

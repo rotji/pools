@@ -4,15 +4,15 @@
  */
 
 import React, { useState } from 'react';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { WalletConnect } from './components/auth/WalletConnect';
-import { UserProfile } from './components/auth/UserProfile';
-import { LandingPage } from './pages/Landing';
-import { Groups } from './pages/Groups';
-import GroupDetail from './pages/GroupDetail/GroupDetail';
-import { CreatePublicGroup, CreatePrivateGroup, CreateGroupSelector } from './pages/CreateGroup';
-import { Profile } from './pages';
 import ApiTest from './components/ApiTest';
+import { UserProfile } from './components/auth/UserProfile';
+import { WalletConnect } from './components/auth/WalletConnect';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { Profile } from './pages';
+import { CreateGroupSelector, CreatePrivateGroup, CreatePublicGroup } from './pages/CreateGroup';
+import GroupDetail from './pages/GroupDetail/GroupDetail';
+import { Groups } from './pages/Groups';
+import { LandingPage } from './pages/Landing';
 import type { User } from './services/userService';
 
 type PageType = 'landing' | 'groups' | 'create' | 'create-public' | 'create-private' | 'profile' | 'group-detail' | 'api-test';
@@ -86,7 +86,7 @@ const AppContent: React.FC = () => {
         </header>
 
         <main>
-          <WalletConnect 
+          <WalletConnect
             onAuthSuccess={(user: User) => {
               login(user);
               setAuthError('');
@@ -133,7 +133,7 @@ const AppContent: React.FC = () => {
         return <Groups onViewGroupDetail={handleViewGroupDetail} />;
       case 'create':
         return (
-          <CreateGroupSelector 
+          <CreateGroupSelector
             {...navigationProps}
             onSelectPublic={() => setCurrentPage('create-public')}
             onSelectPrivate={() => setCurrentPage('create-private')}
@@ -147,8 +147,8 @@ const AppContent: React.FC = () => {
         return <Profile {...navigationProps} />;
       case 'group-detail':
         return selectedGroupId ? (
-          <GroupDetail 
-            groupId={selectedGroupId} 
+          <GroupDetail
+            groupId={selectedGroupId}
             {...navigationProps}
           />
         ) : (
@@ -180,7 +180,7 @@ const AppContent: React.FC = () => {
           alignItems: 'center'
         }}>
           <div>
-            <h1 
+            <h1
               onClick={() => setCurrentPage('landing')}
               style={{
                 margin: '0',

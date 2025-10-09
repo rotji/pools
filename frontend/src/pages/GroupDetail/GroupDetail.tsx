@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Header, Footer } from '../../components';
+import { Footer, Header } from '../../components';
 import { Button } from '../../components/ui';
 import { MOCK_GROUPS } from '../../constants';
-import styles from '../../styles/pages/GroupDetail.module.css';
 import { useAuth } from '../../contexts/AuthContext';
+import styles from '../../styles/pages/GroupDetail.module.css';
 
 interface GroupMember {
   id: string;
@@ -100,7 +100,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
   return (
     <div className={styles.container}>
       <Header />
-      
+
       <main className={styles.main}>
         {/* Back Navigation */}
         <div className={styles.backNav}>
@@ -136,7 +136,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
               <p>Contribution Amount</p>
             </div>
           </div>
-          
+
           <div className={styles.statCard}>
             <div className={styles.statIcon}>👥</div>
             <div className={styles.statInfo}>
@@ -144,7 +144,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
               <p>Members</p>
             </div>
           </div>
-          
+
           <div className={styles.statCard}>
             <div className={styles.statIcon}>🏦</div>
             <div className={styles.statInfo}>
@@ -152,7 +152,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
               <p>Total Pool Value</p>
             </div>
           </div>
-          
+
           <div className={styles.statCard}>
             <div className={styles.statIcon}>📅</div>
             <div className={styles.statInfo}>
@@ -175,7 +175,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
                 )}
               </div>
             </div>
-            
+
             <div className={styles.participantsList}>
               {mockParticipants.map((participant) => (
                 <div key={participant.id} className={styles.participantCard}>
@@ -226,7 +226,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
             {/* Action Buttons */}
             <div className={styles.actionButtons}>
               {!isAuthenticated ? (
-                <Button 
+                <Button
                   onClick={() => alert('Please login to join this group')}
                   variant="primary"
                   size="lg"
@@ -237,7 +237,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
               ) : (
                 <>
                   {!hasJoined ? (
-                    <Button 
+                    <Button
                       onClick={handleJoinGroup}
                       variant="primary"
                       size="lg"
@@ -251,7 +251,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
                       <div className={styles.joinedMessage}>
                         ✅ You are a member of this group
                       </div>
-                      <Button 
+                      <Button
                         onClick={handleLeaveGroup}
                         variant="secondary"
                         size="md"
@@ -269,7 +269,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
             <div className={styles.riskDisclosure}>
               <h4>⚠️ Investment Risk Disclosure</h4>
               <p className={styles.riskText}>
-                All investments carry risk. You may lose some or all of your contribution. 
+                All investments carry risk. You may lose some or all of your contribution.
                 Please read our <button className={styles.riskLink} onClick={() => setShowRiskModal(true)}>
                   full risk disclosure
                 </button> before participating.
@@ -285,7 +285,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
           <div className={styles.modalContent}>
             <div className={styles.modalHeader}>
               <h3>Investment Risk Disclosure</h3>
-              <button 
+              <button
                 onClick={() => setShowRiskModal(false)}
                 className={styles.closeButton}
               >
@@ -307,25 +307,25 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
                   <li>This platform does not provide financial advice</li>
                 </ul>
               </div>
-              
+
               <div className={styles.legalSection}>
                 <h4>📋 Legal Considerations</h4>
                 <p>
-                  Investment groups are subject to applicable securities laws. Please consult 
-                  with a qualified financial advisor before participating. This platform 
+                  Investment groups are subject to applicable securities laws. Please consult
+                  with a qualified financial advisor before participating. This platform
                   facilitates group formation but does not provide investment advice.
                 </p>
               </div>
             </div>
             <div className={styles.modalFooter}>
-              <Button 
+              <Button
                 onClick={() => setShowRiskModal(false)}
                 variant="secondary"
                 className={styles.cancelButton}
               >
                 Cancel
               </Button>
-              <Button 
+              <Button
                 onClick={handleConfirmJoin}
                 variant="primary"
                 className={styles.confirmButton}
