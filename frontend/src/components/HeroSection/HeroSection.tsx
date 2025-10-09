@@ -4,16 +4,10 @@ import { LANDING_PAGE_CONTENT } from '../../constants';
 import styles from '../../styles/components/HeroSection.module.css';
 
 export interface HeroSectionProps {
-  onConnectWallet?: () => void;
-  onLearnMore?: () => void;
-  onApiTest?: () => void;
+  // No props needed - components handle their own logic
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({
-  onConnectWallet,
-  onLearnMore,
-  onApiTest
-}) => {
+export const HeroSection: React.FC<HeroSectionProps> = () => {
   const { hero, stats } = LANDING_PAGE_CONTENT;
   
   const statsData = [
@@ -49,7 +43,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <Button 
                 variant="primary" 
                 size="lg"
-                onClick={onConnectWallet}
+                onClick={() => console.log('Get started - handled by main app')}
                 className={styles.primaryCta}
               >
                 {hero.ctaText}
@@ -57,7 +51,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <Button 
                 variant="secondary" 
                 size="lg"
-                onClick={onLearnMore}
+                onClick={() => console.log('Learn more - handled by main app')}
               >
                 {hero.secondaryCtaText}
               </Button>
@@ -65,7 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <Button 
                 variant="secondary" 
                 size="sm"
-                onClick={onApiTest}
+                onClick={() => console.log('API test - handled by main app')}
                 style={{ marginLeft: '1rem', fontSize: '0.8rem' }}
               >
                 Test API

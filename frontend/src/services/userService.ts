@@ -3,8 +3,8 @@
  * Handles user authentication and profile management
  */
 
-import { api } from './api';
 import type { ApiResponse } from './api';
+import { api } from './api';
 
 // User data types
 export interface User {
@@ -45,30 +45,46 @@ export class UserService {
    * Authenticate user with wallet address
    */
   static async authenticate(authData: AuthData): Promise<ApiResponse<AuthResponse>> {
-    const response = await api.post<AuthResponse>('/auth/login', authData);
-    
+    const response = await api.post<any>('/auth/login', authData);
+
     // Store auth token if successful
-    if (response.success && response.data?.token) {
-      localStorage.setItem('authToken', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
-    
-    return response;
+    if (response.success && (response as any).token) {
+      localStorage.setItem('authToken', (response as any).token);
+      localStorage.setItem('user', JSON.stringify((response as any).user));
+    }    // Transform response to match expected format
+    return {
+      success: response.success,
+      data: response.success ? {
+        user: (response as any).user,
+        token: (response as any).token,
+        expiresAt: (response as any).expiresAt || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+      } : undefined,
+      message: response.message,
+      error: response.error
+    };
   }
 
   /**
    * Register new user
    */
   static async register(authData: AuthData & { username?: string }): Promise<ApiResponse<AuthResponse>> {
-    const response = await api.post<AuthResponse>('/auth/register', authData);
-    
+    const response = await api.post<any>('/auth/register', authData);
+
     // Store auth token if successful
-    if (response.success && response.data?.token) {
-      localStorage.setItem('authToken', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
-    
-    return response;
+    if (response.success && (response as any).token) {
+      localStorage.setItem('authToken', (response as any).token);
+      localStorage.setItem('user', JSON.stringify((response as any).user));
+    }    // Transform response to match expected format
+    return {
+      success: response.success,
+      data: response.success ? {
+        user: (response as any).user,
+        token: (response as any).token,
+        expiresAt: (response as any).expiresAt || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+      } : undefined,
+      message: response.message,
+      error: response.error
+    };
   }
 
   /**
@@ -150,11 +166,11 @@ export class UserService {
    */
   static async refreshToken(): Promise<ApiResponse<{ token: string; expiresAt: string }>> {
     const response = await api.post<{ token: string; expiresAt: string }>('/auth/refresh');
-    
+
     if (response.success && response.data?.token) {
       localStorage.setItem('authToken', response.data.token);
     }
-    
+
     return response;
   }
 

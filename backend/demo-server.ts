@@ -56,9 +56,32 @@ let mockGroups = [
 
 let mockUsers = [
   {
+    id: 'user-1',
+    walletAddress: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+    username: 'alice_investor',
+    email: 'alice@demo.com',
+    totalContributions: 5000.50,
+    activeGroups: 2,
+    completedGroups: 3,
+    createdAt: '2024-01-15T10:00:00Z',
+    lastLoginAt: new Date().toISOString()
+  },
+  {
+    id: 'user-2', 
+    walletAddress: 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG',
+    username: 'bob_trader',
+    email: 'bob@demo.com',
+    totalContributions: 3200.25,
+    activeGroups: 1,
+    completedGroups: 2,
+    createdAt: '2024-01-20T14:30:00Z',
+    lastLoginAt: new Date().toISOString()
+  },
+  {
     id: 'demo_user_1',
     walletAddress: 'ST1DEMO1ABC123',
     username: 'DemoUser1',
+    email: '',
     totalContributions: 25000,
     activeGroups: 1,
     completedGroups: 2,
@@ -160,53 +183,125 @@ app.post('/api/v1/groups', (req, res) => {
   });
 });
 
-// User endpoints (simple demo auth)
+// User endpoints (Authentication)
 app.post('/api/v1/auth/login', (req, res) => {
   const { walletAddress } = req.body;
   
   if (!walletAddress) {
     return res.status(400).json({
       success: false,
-      message: 'Wallet address required'
+      error: 'Wallet address required'
     });
   }
   
-  // Demo mode - auto-create user if doesn't exist
-  let user = mockUsers.find(u => u.walletAddress === walletAddress);
+  // Find existing user
+  const user = mockUsers.find(u => u.walletAddress === walletAddress);
   
   if (!user) {
-    user = {
-      id: `demo_user_${mockUsers.length + 1}`,
-      walletAddress,
-      username: `User${mockUsers.length + 1}`,
-      totalContributions: 0,
-      activeGroups: 0,
-      completedGroups: 0,
-      createdAt: new Date().toISOString(),
-      lastLoginAt: new Date().toISOString()
-    };
-    mockUsers.push(user);
+    return res.status(404).json({
+      success: false,
+      error: 'User not found. Please register first.'
+    });
   }
+  
+  // Update last login
+  user.lastLoginAt = new Date().toISOString();
+  
+  const token = `demo_token_${user.id}_${Date.now()}`;
   
   res.json({
     success: true,
     data: {
       user,
-      token: 'demo_token_' + Date.now(),
+      token,
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
-    },
-    message: 'Login successful! (Demo Mode)'
+    }
+  });
+});
+
+app.post('/api/v1/auth/register', (req, res) => {
+  const { walletAddress, username } = req.body;
+  
+  if (!walletAddress) {
+    return res.status(400).json({
+      success: false,
+      error: 'Wallet address required'
+    });
+  }
+  
+  // Check if user already exists
+  const existingUser = mockUsers.find(u => u.walletAddress === walletAddress);
+  if (existingUser) {
+    return res.status(400).json({
+      success: false,
+      error: 'Wallet address already registered'
+    });
+  }
+  
+  // Create new user
+  const newUser = {
+    id: `user-${mockUsers.length + 1}`,
+    walletAddress,
+    username: username || `User${mockUsers.length + 1}`,
+    email: '',
+    totalContributions: 0,
+    activeGroups: 0,
+    completedGroups: 0,
+    createdAt: new Date().toISOString(),
+    lastLoginAt: new Date().toISOString()
+  };
+  
+  mockUsers.push(newUser);
+  
+  const token = `demo_token_${newUser.id}_${Date.now()}`;
+  
+  res.json({
+    success: true,
+    data: {
+      user: newUser,
+      token,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+    }
+  });
+});
+
+app.post('/api/v1/auth/logout', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'Logged out successfully' 
   });
 });
 
 app.get('/api/v1/users/me', (req, res) => {
-  // Demo mode - return first user
-  const user = mockUsers[0];
+  // In demo mode, extract user ID from Authorization header
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ 
+      success: false, 
+      error: 'No authorization header' 
+    });
+  }
   
-  res.json({
-    success: true,
-    data: user
-  });
+  const token = authHeader.replace('Bearer ', '');
+  const parts = token.split('_');
+  if (parts.length < 3) {
+    return res.status(401).json({ 
+      success: false, 
+      error: 'Invalid token format' 
+    });
+  }
+  
+  const userId = parts[2];
+  const user = mockUsers.find(u => u.id === userId || u.id === `user-${userId}`);
+  
+  if (user) {
+    res.json({ success: true, data: user });
+  } else {
+    res.status(404).json({ 
+      success: false, 
+      error: 'User not found' 
+    });
+  }
 });
 
 // Start server
@@ -215,7 +310,8 @@ app.listen(PORT, () => {
   console.log(`📍 Health check: http://localhost:${PORT}/health`);
   console.log(`🔗 API base URL: http://localhost:${PORT}/api/v1`);
   console.log(`🎭 Demo Mode: Authentication simplified for testing`);
-  console.log(`🌍 CORS enabled for: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
+  console.log(`👥 Users: ${mockUsers.length} demo users available`);
+  console.log(`🌍 CORS enabled for: http://localhost:5173`);
 });
 
 export default app;

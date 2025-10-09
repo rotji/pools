@@ -2,6 +2,9 @@
 
 **United we invest. United we profit.**
 
+## 🚨 IMPORTANT: Read This First!
+**If commands fail or backend won't start → Check [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)**
+
 UnitedProfit is a decentralized group investment pooling platform where participants contribute equal amounts, invest in different assets, and share all profits and losses equally among group members.
 
 ## 🌟 Core Philosophy
@@ -162,6 +165,21 @@ All components are built with **mobile-first design**:
 - **Performance**: Optimized images and smooth animations
 - **Accessibility**: Screen reader support and keyboard navigation
 - **Cross-device Testing**: Verified on phones, tablets, and desktops
+
+## ⚠️ Development Notes
+
+**IMPORTANT**: VS Code integrated terminal has directory navigation issues. Always use relative paths from workspace root:
+
+```bash
+# ✅ Correct way to run commands
+node backend/simple-demo-server.js    # Start backend
+npm run dev --prefix frontend         # Start frontend  
+
+# ❌ Wrong way (will fail)
+cd backend && node simple-demo-server.js
+```
+
+📖 **See full details**: [VS Code Terminal Issue Documentation](./docs/vscode-terminal-issue.md)
 
 ## 🤝 Contributing
 

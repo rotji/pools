@@ -25,24 +25,10 @@ export interface Group {
 }
 
 export interface GroupsProps {
-  onConnectWallet?: () => void;
-  isWalletConnected?: boolean;
-  walletAddress?: string;
-  onNavigateHome?: () => void;
-  onNavigateGroups?: () => void;
-  onNavigateCreate?: () => void;
-  onNavigateProfile?: () => void;
   onViewGroupDetail?: (groupId: string) => void;
 }
 
 export const Groups: React.FC<GroupsProps> = ({
-  onConnectWallet,
-  isWalletConnected = false,
-  walletAddress,
-  onNavigateHome,
-  onNavigateGroups,
-  onNavigateCreate,
-  onNavigateProfile,
   onViewGroupDetail
 }) => {
   const [filteredGroups] = useState<Group[]>([...MOCK_GROUPS] as unknown as Group[]);
@@ -58,23 +44,9 @@ export const Groups: React.FC<GroupsProps> = ({
     // TODO: Implement join group logic
   };
 
-  const handleCreateGroup = () => {
-    if (onNavigateCreate) {
-      onNavigateCreate();
-    }
-  };
-
   return (
     <div className={styles.groupsPage}>
-      <Header 
-        onConnectWallet={onConnectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-        onNavigateHome={onNavigateHome}
-        onNavigateGroups={onNavigateGroups}
-        onNavigateCreate={onNavigateCreate}
-        onNavigateProfile={onNavigateProfile}
-      />
+      <Header />
       
       <main className={styles.main}>
         <div className={styles.container}>
@@ -89,7 +61,6 @@ export const Groups: React.FC<GroupsProps> = ({
             <Button 
               variant="primary"
               size="lg"
-              onClick={handleCreateGroup}
               className={styles.createButton}
             >
               Create New Group
@@ -111,7 +82,6 @@ export const Groups: React.FC<GroupsProps> = ({
                 group={group}
                 onJoin={handleJoinGroup}
                 onViewDetail={onViewGroupDetail}
-                isWalletConnected={isWalletConnected}
               />
             ))}
           </div>
@@ -124,7 +94,7 @@ export const Groups: React.FC<GroupsProps> = ({
               <p className={styles.emptyDescription}>
                 Try adjusting your filters or create a new group
               </p>
-              <Button variant="primary" onClick={handleCreateGroup}>
+              <Button variant="primary">
                 Create New Group
               </Button>
             </div>

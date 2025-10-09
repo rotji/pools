@@ -1,34 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '../ui';
+import { useAuth } from '../../contexts/AuthContext';
 import styles from '../../styles/components/Header.module.css';
 
 export interface HeaderProps {
-  onConnectWallet?: () => void;
-  onNavigateProfile?: () => void;
-  isWalletConnected?: boolean;
-  walletAddress?: string;
-  onNavigateHome?: () => void;
-  onNavigateGroups?: () => void;
-  onNavigateCreate?: () => void;
+  // No props needed - using AuthContext directly
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  onConnectWallet,
-  onNavigateProfile,
-  isWalletConnected = false,
-  walletAddress,
-  onNavigateHome,
-  onNavigateGroups,
-  onNavigateCreate
-}) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+export const Header: React.FC<HeaderProps> = () => {
+  const { isAuthenticated, user, logout } = useAuth();
 
   const truncateAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -45,81 +28,34 @@ export const Header: React.FC<HeaderProps> = ({
           <span className={styles.tagline}>Risk-sharing platform</span>
         </div>
 
-        {/* Desktop Navigation */}
-        <nav className={styles.desktopNav}>
-          <button onClick={onNavigateHome} className={styles.navLink}>
-            <span className={styles.navIcon}>🏠</span>
-            Home
-          </button>
-          <button onClick={onNavigateGroups} className={styles.navLink}>
-            <span className={styles.navIcon}>👥</span>
-            Groups
-          </button>
-          <button onClick={onNavigateCreate} className={styles.navLink}>
-            <span className={styles.navIcon}>➕</span>
-            Create
-          </button>
-        </nav>
-
-        {/* Wallet Section */}
+        {/* User Authentication Section */}
         <div className={styles.walletSection}>
-          {isWalletConnected ? (
+          {isAuthenticated ? (
             <div className={styles.walletInfo}>
               <div className={styles.walletBadge}>
                 <span className={styles.walletDot}></span>
                 <span className={styles.walletAddress}>
-                  {walletAddress ? truncateAddress(walletAddress) : 'Connected'}
+                  {user?.walletAddress ? truncateAddress(user.walletAddress) : user?.username || 'Connected'}
                 </span>
               </div>
               <Button 
                 variant="ghost" 
                 size="sm"
-                onClick={onNavigateProfile}
+                onClick={logout}
               >
-                Profile
+                Logout
               </Button>
             </div>
           ) : (
             <Button 
               variant="primary" 
               size="md"
-              onClick={onConnectWallet}
+              onClick={() => console.log('Connect wallet - handled by main app')}
             >
               Connect Wallet
             </Button>
           )}
-
-          {/* Mobile Menu Button */}
-          <button 
-            className={styles.mobileMenuButton}
-            onClick={toggleMobileMenu}
-            aria-label="Toggle mobile menu"
-          >
-            <span className={`${styles.hamburger} ${isMobileMenuOpen ? styles.open : ''}`}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </button>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <nav className={styles.mobileNav}>
-            <button onClick={() => { onNavigateHome?.(); setIsMobileMenuOpen(false); }} className={styles.mobileNavLink}>
-              <span className={styles.navIcon}>🏠</span>
-              Home
-            </button>
-            <button onClick={() => { onNavigateGroups?.(); setIsMobileMenuOpen(false); }} className={styles.mobileNavLink}>
-              <span className={styles.navIcon}>👥</span>
-              Groups
-            </button>
-            <button onClick={() => { onNavigateCreate?.(); setIsMobileMenuOpen(false); }} className={styles.mobileNavLink}>
-              <span className={styles.navIcon}>➕</span>
-              Create
-            </button>
-          </nav>
-        )}
       </div>
     </header>
   );

@@ -1,0 +1,33 @@
+{
+  "folders": [
+    {
+      "name": "🚨 TROUBLESHOOTING",
+      "path": "./TROUBLESHOOTING.md"
+    },
+    {
+      "name": "📋 DEVELOPMENT COMMANDS", 
+      "path": "./DEVELOPMENT.md"
+    },
+    {
+      "name": "⚠️ VS Code Terminal Issue",
+      "path": "./docs/vscode-terminal-issue.md"
+    },
+    {
+      "name": "Project Root",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "files.associations": {
+      "TROUBLESHOOTING.md": "markdown",
+      "DEVELOPMENT.md": "markdown"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-typescript-next"
+    ]
+  }
+}

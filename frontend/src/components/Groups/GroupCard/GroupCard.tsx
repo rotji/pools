@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '../../ui';
+import { useAuth } from '../../../contexts/AuthContext';
 import type { GroupStatus, GroupType } from '../../../constants';
 import styles from '../../../styles/components/Groups/GroupCard.module.css';
 
@@ -24,15 +25,14 @@ export interface GroupCardProps {
   group: Group;
   onJoin: (groupId: string) => void;
   onViewDetail?: (groupId: string) => void;
-  isWalletConnected: boolean;
 }
 
 export const GroupCard: React.FC<GroupCardProps> = ({
   group,
   onJoin,
-  onViewDetail,
-  isWalletConnected
+  onViewDetail
 }) => {
+  const { isAuthenticated } = useAuth();
   const getRiskColor = (risk: string) => {
     switch (risk) {
       case 'low': return '#10b981';
@@ -143,10 +143,10 @@ export const GroupCard: React.FC<GroupCardProps> = ({
             variant="primary"
             size="md"
             onClick={() => onJoin(group.id)}
-            disabled={!isWalletConnected}
+            disabled={!isAuthenticated}
             className={styles.joinButton}
           >
-            {isWalletConnected ? 'Join Group' : 'Connect Wallet to Join'}
+            {isAuthenticated ? 'Join Group' : 'Connect Wallet to Join'}
           </Button>
         ) : group.type === 'private' && group.status === 'active' ? (
           <Button 
