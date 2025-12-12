@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Header, Footer } from '../../components';
-import { GroupCard, FilterBar } from '../../components/Groups';
+import React, { useEffect, useState } from 'react';
+import { Footer, Header } from '../../components';
+import { FilterBar, GroupCard } from '../../components/Groups';
 import { Button } from '../../components/ui';
-import { MOCK_GROUPS } from '../../constants';
 import type { GroupStatus } from '../../constants';
+import { GroupService } from '../../services/groupService';
 import styles from '../../styles/pages/Groups.module.css';
 
 // Define Group type here for now
@@ -31,11 +31,40 @@ export interface GroupsProps {
 export const Groups: React.FC<GroupsProps> = ({
   onViewGroupDetail
 }) => {
-  const [filteredGroups] = useState<Group[]>([...MOCK_GROUPS] as unknown as Group[]);
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [filteredGroups, setFilteredGroups] = useState<Group[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    GroupService.getPublicGroups()
+      .then((res) => {
+        if (res.success && res.data?.groups) {
+          setGroups(res.data.groups);
+          setFilteredGroups(res.data.groups);
+        } else {
+          setError(res.message || 'Failed to load groups');
+        }
+      })
+      .catch((err) => {
+        setError(err.message || 'Failed to load groups');
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleFilter = (filters: any) => {
     // TODO: Implement filtering logic
+    // For now, just filter by search term
+    if (filters?.search) {
+      setFilteredGroups(groups.filter(g =>
+        g.title.toLowerCase().includes(filters.search.toLowerCase())
+      ));
+    } else {
+      setFilteredGroups(groups);
+    }
     console.log('Filters applied:', filters);
   };
 
@@ -47,7 +76,6 @@ export const Groups: React.FC<GroupsProps> = ({
   return (
     <div className={styles.groupsPage}>
       <Header />
-      
       <main className={styles.main}>
         <div className={styles.container}>
           {/* Page Header */}
@@ -58,7 +86,7 @@ export const Groups: React.FC<GroupsProps> = ({
                 Join active investment pools and share equal contributions and outcomes
               </p>
             </div>
-            <Button 
+            <Button
               variant="primary"
               size="lg"
               className={styles.createButton}
@@ -68,26 +96,38 @@ export const Groups: React.FC<GroupsProps> = ({
           </div>
 
           {/* Filter Bar */}
-          <FilterBar 
+          <FilterBar
             onFilter={handleFilter}
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
           />
 
+          {/* Loading State */}
+          {loading && (
+            <div className={styles.loadingState}>Loading groups...</div>
+          )}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className={styles.errorState}>{error}</div>
+          )}
+
           {/* Groups Grid */}
-          <div className={styles.groupsGrid}>
-            {filteredGroups.map((group) => (
-              <GroupCard
-                key={group.id}
-                group={group}
-                onJoin={handleJoinGroup}
-                onViewDetail={onViewGroupDetail}
-              />
-            ))}
-          </div>
+          {!loading && !error && (
+            <div className={styles.groupsGrid}>
+              {filteredGroups.map((group) => (
+                <GroupCard
+                  key={group.id}
+                  group={group}
+                  onJoin={handleJoinGroup}
+                  onViewDetail={onViewGroupDetail}
+                />
+              ))}
+            </div>
+          )}
 
           {/* Empty State */}
-          {filteredGroups.length === 0 && (
+          {!loading && !error && filteredGroups.length === 0 && (
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>🔍</div>
               <h3 className={styles.emptyTitle}>No groups found</h3>
@@ -101,7 +141,6 @@ export const Groups: React.FC<GroupsProps> = ({
           )}
         </div>
       </main>
-
       <Footer />
     </div>
   );
