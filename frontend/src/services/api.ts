@@ -13,8 +13,8 @@ export interface ApiResponse<T = any> {
   error?: string;
 }
 
-// API base URL from environment
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3003/api/v1';
+// API base URL from environment  
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3005/api';
 
 // Create axios instance
 const apiClient = axios.create({
@@ -48,14 +48,14 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     console.error('API Error:', error.response?.data || error.message);
-    
+
     // Handle specific status codes
     if (error.response?.status === 401) {
       // Handle unauthorized - clear token and redirect to login
       localStorage.removeItem('authToken');
       // Could dispatch auth state reset here
     }
-    
+
     return Promise.reject(error);
   }
 );

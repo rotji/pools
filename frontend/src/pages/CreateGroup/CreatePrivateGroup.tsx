@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { Header, Footer } from '../../components';
+import { Footer, Header } from '../../components';
 import { Button } from '../../components/ui';
+import { useAuth } from '../../contexts/AuthContext';
 import styles from '../../styles/pages/CreateGroup.module.css';
 
 interface CreatePrivateGroupProps {
-  onConnectWallet: () => void;
-  isWalletConnected?: boolean;
-  walletAddress?: string;
   onNavigateHome: () => void;
   onNavigateGroups: () => void;
   onNavigateCreate: () => void;
@@ -67,31 +65,27 @@ const MAX_MEMBERS_OPTIONS = [
 ];
 
 const INVITE_METHODS = [
-  { 
-    value: 'manual', 
-    label: 'Manual Invitations', 
-    description: 'Send invites to specific wallet addresses or emails' 
+  {
+    value: 'manual',
+    label: 'Manual Invitations',
+    description: 'Send invites to specific wallet addresses or emails'
   },
-  { 
-    value: 'link', 
-    label: 'Invitation Link', 
-    description: 'Generate a private link that can be shared' 
+  {
+    value: 'link',
+    label: 'Invitation Link',
+    description: 'Generate a private link that can be shared'
   },
-  { 
-    value: 'approval', 
-    label: 'Request & Approval', 
-    description: 'Users can request to join, you approve them' 
+  {
+    value: 'approval',
+    label: 'Request & Approval',
+    description: 'Users can request to join, you approve them'
   }
 ];
 
 const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
-  onConnectWallet,
-  isWalletConnected = false,
-  walletAddress,
-  onNavigateHome,
-  onNavigateGroups,
-  onNavigateCreate
+  onNavigateGroups
 }) => {
+  const { user, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState<PrivateGroupFormData>({
     title: '',
     description: '',
@@ -183,9 +177,9 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!isWalletConnected) {
-      onConnectWallet();
+
+    if (!isAuthenticated) {
+      alert('Please log in to create a group');
       return;
     }
 
@@ -200,7 +194,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
         ...formData,
         contributionAmount: formData.contributionAmount === 'custom' ? customAmount : formData.contributionAmount,
         maxMembers: formData.maxMembers === 'custom' ? customMaxMembers : formData.maxMembers,
-        creator: walletAddress
+        creator: user?.username || user?.email
       });
 
       // Simulate API call
@@ -233,15 +227,8 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
 
   return (
     <div className={styles.container}>
-      <Header
-        onConnectWallet={onConnectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-        onNavigateHome={onNavigateHome}
-        onNavigateGroups={onNavigateGroups}
-        onNavigateCreate={onNavigateCreate}
-      />
-      
+      <Header />
+
       <main className={styles.main}>
         <div className={styles.content}>
           {/* Back Navigation */}
@@ -255,7 +242,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
           <div className={styles.pageHeader}>
             <h1 className={styles.pageTitle}>Create Private Group</h1>
             <p className={styles.pageDescription}>
-              Create an exclusive investment pool for invited members only. Control who joins 
+              Create an exclusive investment pool for invited members only. Control who joins
               and maintain privacy with invitation-based membership.
             </p>
           </div>
@@ -265,7 +252,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
               {/* Basic Information */}
               <div className={styles.section}>
                 <h2 className={styles.sectionTitle}>🎯 Basic Information</h2>
-                
+
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>
                     Group Title *
@@ -303,7 +290,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
               {/* Investment Parameters */}
               <div className={styles.section}>
                 <h2 className={styles.sectionTitle}>💰 Investment Parameters</h2>
-                
+
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>
                     Asset Type *
@@ -339,7 +326,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                       </option>
                     ))}
                   </select>
-                  
+
                   {formData.contributionAmount === 'custom' && (
                     <input
                       type="number"
@@ -351,7 +338,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                       step="1"
                     />
                   )}
-                  
+
                   {errors.contributionAmount && <span className={styles.errorText}>{errors.contributionAmount}</span>}
                 </div>
 
@@ -396,7 +383,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
               {/* Privacy & Member Settings */}
               <div className={styles.section}>
                 <h2 className={styles.sectionTitle}>🔒 Privacy & Member Settings</h2>
-                
+
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>
                     Maximum Members
@@ -412,7 +399,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                       </option>
                     ))}
                   </select>
-                  
+
                   {formData.maxMembers === 'custom' && (
                     <input
                       type="number"
@@ -487,7 +474,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                         Add
                       </Button>
                     </div>
-                    
+
                     {formData.inviteEmails.length > 0 && (
                       <div className={styles.emailList}>
                         <div className={styles.emailListHeader}>
@@ -572,7 +559,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                   >
                     {showPreview ? 'Hide Preview' : 'Show Preview'}
                   </Button>
-                  
+
                   <Button
                     type="submit"
                     variant="primary"
@@ -580,9 +567,9 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                     disabled={isSubmitting}
                     className={styles.submitButton}
                   >
-                    {isSubmitting ? 'Creating Private Group...' : 
-                     !isWalletConnected ? 'Connect Wallet to Create' : 
-                     'Create Private Group'}
+                    {isSubmitting ? 'Creating Private Group...' :
+                      !isAuthenticated ? 'Login to Create' :
+                        'Create Private Group'}
                   </Button>
                 </div>
 
@@ -590,8 +577,8 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                 <div className={styles.riskDisclaimer}>
                   <h4>🔒 Privacy Notice</h4>
                   <p>
-                    This private group will only be visible to invited members. You control who can join 
-                    and all group activities remain confidential. Initial invitations will be sent 
+                    This private group will only be visible to invited members. You control who can join
+                    and all group activities remain confidential. Initial invitations will be sent
                     immediately upon group creation. Members can only join through your direct invitation.
                   </p>
                 </div>

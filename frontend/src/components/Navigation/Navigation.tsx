@@ -1,21 +1,15 @@
 import React from 'react';
 import { Button } from '../ui';
+import { useAuth } from '../../contexts/AuthContext';
 import { ROUTES } from '../../constants';
 import styles from '../../styles/components/Navigation.module.css';
 
 export interface NavigationProps {
-  onConnectWallet?: () => void;
-  onNavigateProfile?: () => void;
-  isWalletConnected?: boolean;
-  walletAddress?: string;
+  // No props needed - using AuthContext directly
 }
 
-export const Navigation: React.FC<NavigationProps> = ({
-  onConnectWallet,
-  onNavigateProfile,
-  isWalletConnected = false,
-  walletAddress
-}) => {
+export const Navigation: React.FC<NavigationProps> = () => {
+  const { isAuthenticated, user, logout } = useAuth();
   const truncateAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
@@ -41,26 +35,26 @@ export const Navigation: React.FC<NavigationProps> = ({
           </a>
         </div>
 
-        {/* Wallet Connection */}
+        {/* User Authentication */}
         <div className={styles.walletSection}>
-          {isWalletConnected ? (
+          {isAuthenticated ? (
             <div className={styles.walletInfo}>
               <span className={styles.walletAddress}>
-                {walletAddress ? truncateAddress(walletAddress) : 'Connected'}
+                {user?.walletAddress ? truncateAddress(user.walletAddress) : user?.username || 'Connected'}
               </span>
               <Button 
                 variant="secondary" 
                 size="sm"
-                onClick={onNavigateProfile}
+                onClick={logout}
               >
-                Profile
+                Logout
               </Button>
             </div>
           ) : (
             <Button 
               variant="primary" 
               size="md"
-              onClick={onConnectWallet}
+              onClick={() => console.log('Connect wallet - handled by main app')}
             >
               Connect Wallet
             </Button>

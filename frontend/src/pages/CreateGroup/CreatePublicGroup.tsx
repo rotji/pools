@@ -2,14 +2,10 @@ import React, { useState } from 'react';
 import { Header, Footer } from '../../components';
 import { Button } from '../../components/ui';
 import styles from '../../styles/pages/CreateGroup.module.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface CreatePublicGroupProps {
-  onConnectWallet: () => void;
-  isWalletConnected?: boolean;
-  walletAddress?: string;
-  onNavigateHome: () => void;
-  onNavigateGroups: () => void;
-  onNavigateCreate: () => void;
+  // No props needed - using AuthContext
 }
 
 interface GroupFormData {
@@ -53,14 +49,8 @@ const RISK_LEVELS = [
   { value: 'high', label: 'High Risk', description: 'Aggressive investments with high potential returns' }
 ];
 
-const CreatePublicGroup: React.FC<CreatePublicGroupProps> = ({
-  onConnectWallet,
-  isWalletConnected = false,
-  walletAddress,
-  onNavigateHome,
-  onNavigateGroups,
-  onNavigateCreate
-}) => {
+const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
+  const { user, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState<GroupFormData>({
     title: '',
     description: '',
@@ -121,8 +111,8 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isWalletConnected) {
-      onConnectWallet();
+    if (!isAuthenticated) {
+      alert('Please log in to create a group');
       return;
     }
 
@@ -137,7 +127,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = ({
       console.log('Creating public group:', {
         ...formData,
         contributionAmount: formData.contributionAmount === 'custom' ? customAmount : formData.contributionAmount,
-        creator: walletAddress
+        creator: user?.username || user?.email
       });
 
       // Simulate API call
@@ -145,7 +135,6 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = ({
 
       // Show success and redirect
       alert('Group created successfully! Redirecting to groups list...');
-      onNavigateGroups();
     } catch (error) {
       console.error('Error creating group:', error);
       alert('Failed to create group. Please try again.');
@@ -163,20 +152,13 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = ({
 
   return (
     <div className={styles.container}>
-      <Header
-        onConnectWallet={onConnectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-        onNavigateHome={onNavigateHome}
-        onNavigateGroups={onNavigateGroups}
-        onNavigateCreate={onNavigateCreate}
-      />
+      <Header />
       
       <main className={styles.main}>
         <div className={styles.content}>
           {/* Back Navigation */}
           <div className={styles.backNav}>
-            <button onClick={onNavigateGroups} className={styles.backButton}>
+            <button onClick={() => window.history.back()} className={styles.backButton}>
               ← Back to Groups
             </button>
           </div>
@@ -387,7 +369,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = ({
                     className={styles.submitButton}
                   >
                     {isSubmitting ? 'Creating Group...' : 
-                     !isWalletConnected ? 'Connect Wallet to Create' : 
+                     !isAuthenticated ? 'Login to Create' : 
                      'Create Public Group'}
                   </Button>
                 </div>

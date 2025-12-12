@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Header, Footer, Button, GlowContainer } from '../../components';
+import { Button, Footer, GlowContainer, Header } from '../../components';
+import { useAuth } from '../../contexts/AuthContext';
 import styles from '../../styles/pages/Profile.module.css';
 
 export interface ProfileProps {
@@ -7,9 +8,6 @@ export interface ProfileProps {
   onNavigateGroups: () => void;
   onNavigateCreate: () => void;
   onNavigateProfile: () => void;
-  onConnectWallet: () => void;
-  isWalletConnected: boolean;
-  walletAddress?: string;
 }
 
 type ProfileTab = 'active' | 'settled' | 'history';
@@ -97,14 +95,9 @@ const mockHistoryGroups: GroupPosition[] = [
 ];
 
 export const Profile: React.FC<ProfileProps> = ({
-  onNavigateHome,
-  onNavigateGroups,
-  onNavigateCreate,
-  onNavigateProfile,
-  onConnectWallet,
-  isWalletConnected,
-  walletAddress
+  onNavigateGroups
 }) => {
+  const { user, isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState<ProfileTab>('active');
 
   const formatDate = (date: Date) => {
@@ -122,7 +115,7 @@ export const Profile: React.FC<ProfileProps> = ({
       lost: { label: 'Lost', className: styles.statusLost },
       pending: { label: 'Pending', className: styles.statusPending }
     };
-    
+
     const config = statusConfig[status];
     return <span className={`${styles.statusBadge} ${config.className}`}>{config.label}</span>;
   };
@@ -133,7 +126,7 @@ export const Profile: React.FC<ProfileProps> = ({
       medium: { label: 'Medium Risk', className: styles.riskMedium },
       high: { label: 'High Risk', className: styles.riskHigh }
     };
-    
+
     const config = riskConfig[risk];
     return <span className={`${styles.riskBadge} ${config.className}`}>{config.label}</span>;
   };
@@ -209,7 +202,7 @@ export const Profile: React.FC<ProfileProps> = ({
 
   const getTabStats = () => {
     const active = mockActiveGroups.length;
-    const totalInvested = mockActiveGroups.reduce((sum, group) => 
+    const totalInvested = mockActiveGroups.reduce((sum, group) =>
       sum + parseInt(group.contribution.split(' ')[0]), 0);
     const totalWon = mockSettledGroups.filter(g => g.status === 'won').length;
     const totalPayout = mockSettledGroups.reduce((sum, group) => {
@@ -225,18 +218,10 @@ export const Profile: React.FC<ProfileProps> = ({
 
   const stats = getTabStats();
 
-  if (!isWalletConnected) {
+  if (!isAuthenticated) {
     return (
       <div className={styles.profilePage}>
-        <Header 
-          onNavigateHome={onNavigateHome}
-          onNavigateGroups={onNavigateGroups}
-          onNavigateCreate={onNavigateCreate}
-          onNavigateProfile={onNavigateProfile}
-          onConnectWallet={onConnectWallet}
-          isWalletConnected={isWalletConnected}
-          walletAddress={walletAddress}
-        />
+        <Header />
 
         <main className={styles.main}>
           <div className={styles.container}>
@@ -248,13 +233,13 @@ export const Profile: React.FC<ProfileProps> = ({
                   <p className={styles.connectDescription}>
                     You need to connect your wallet to view your profile and manage your investment groups.
                   </p>
-                  <Button 
-                    variant="primary" 
-                    size="lg" 
-                    onClick={onConnectWallet}
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => alert('Please login to view your profile')}
                     className={styles.connectButton}
                   >
-                    Connect Wallet
+                    Login Required
                   </Button>
                 </div>
               </GlowContainer>
@@ -269,15 +254,7 @@ export const Profile: React.FC<ProfileProps> = ({
 
   return (
     <div className={styles.profilePage}>
-      <Header 
-        onNavigateHome={onNavigateHome}
-        onNavigateGroups={onNavigateGroups}
-        onNavigateCreate={onNavigateCreate}
-        onNavigateProfile={onNavigateProfile}
-        onConnectWallet={onConnectWallet}
-        isWalletConnected={isWalletConnected}
-        walletAddress={walletAddress}
-      />
+      <Header />
 
       <main className={styles.main}>
         <div className={styles.container}>
@@ -290,8 +267,8 @@ export const Profile: React.FC<ProfileProps> = ({
               <div className={styles.userDetails}>
                 <h1 className={styles.userName}>My Profile</h1>
                 <p className={styles.walletInfo}>
-                  <span className={styles.walletLabel}>Wallet:</span>
-                  <span className={styles.walletAddress}>{walletAddress}</span>
+                  <span className={styles.walletLabel}>Account:</span>
+                  <span className={styles.walletAddress}>{user?.email || user?.username}</span>
                 </p>
               </div>
             </div>
@@ -310,9 +287,9 @@ export const Profile: React.FC<ProfileProps> = ({
                 <div className={styles.statValue}>{stats.totalWon}</div>
                 <div className={styles.statLabel}>Groups Won</div>
               </GlowContainer>
-              <GlowContainer 
-                glowColor={stats.totalPayout >= 0 ? "green" : "amber"} 
-                intensity="low" 
+              <GlowContainer
+                glowColor={stats.totalPayout >= 0 ? "green" : "amber"}
+                intensity="low"
                 className={styles.statCard}
               >
                 <div className={`${styles.statValue} ${stats.totalPayout >= 0 ? styles.positive : styles.negative}`}>
@@ -325,19 +302,19 @@ export const Profile: React.FC<ProfileProps> = ({
 
           {/* Tab Navigation */}
           <div className={styles.tabNavigation}>
-            <button 
+            <button
               className={`${styles.tab} ${activeTab === 'active' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('active')}
             >
               Active Groups ({mockActiveGroups.length})
             </button>
-            <button 
+            <button
               className={`${styles.tab} ${activeTab === 'settled' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('settled')}
             >
               Settled Groups ({mockSettledGroups.length})
             </button>
-            <button 
+            <button
               className={`${styles.tab} ${activeTab === 'history' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('history')}
             >
@@ -355,15 +332,15 @@ export const Profile: React.FC<ProfileProps> = ({
                     No {activeTab} groups yet
                   </h3>
                   <p className={styles.emptyDescription}>
-                    {activeTab === 'active' 
+                    {activeTab === 'active'
                       ? 'Join investment groups to start tracking your positions.'
                       : `You don't have any ${activeTab} groups to display.`
                     }
                   </p>
                   {activeTab === 'active' && (
-                    <Button 
-                      variant="primary" 
-                      size="md" 
+                    <Button
+                      variant="primary"
+                      size="md"
                       onClick={onNavigateGroups}
                       className={styles.emptyAction}
                     >
