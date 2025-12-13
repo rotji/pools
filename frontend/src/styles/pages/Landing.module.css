@@ -1,11 +1,14 @@
 /* Landing Page Styles */
 .landingPage {
   min-height: 100vh;
-  background: var(--color-bg-primary);
+  background: #fff;
 }
 
 .main {
-  padding-top: 80px; /* Account for fixed navigation */
+  padding-top: 80px;
+  background: #fff;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* Responsive adjustments */
