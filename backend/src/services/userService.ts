@@ -1,7 +1,56 @@
+
 import pool from '../config/database';
 import { User } from '../types/index';
 
+
+
 export class UserService {
+  // Create user with email and password (no hashing for demo)
+  static async createWithEmail(userData: { email: string; password: string; displayName?: string }): Promise<User> {
+    try {
+      // Check if user already exists
+      const existingUser = await this.findByEmail(userData.email);
+      if (existingUser) {
+        throw new Error('User with this email already exists');
+      }
+      const insertQuery = `
+        INSERT INTO users (email, password, display_name)
+        VALUES ($1, $2, $3)
+        RETURNING *
+      `;
+      const displayName = userData.displayName || `User ${userData.email.split('@')[0]}`;
+      const result = await pool.query(insertQuery, [userData.email, userData.password, displayName]);
+      return result.rows[0];
+    } catch (error) {
+      console.error('Error creating user with email:', error);
+      throw error;
+    }
+  }
+
+  // Find user by email
+  static async findByEmail(email: string): Promise<User | null> {
+    try {
+      const query = 'SELECT * FROM users WHERE email = $1';
+      const result = await pool.query(query, [email]);
+      return result.rows[0] || null;
+    } catch (error) {
+      console.error('Error finding user by email:', error);
+      throw error;
+    }
+  }
+
+  // Find user by email and password (no hashing for demo)
+  static async findByEmailAndPassword(email: string, password: string): Promise<User | null> {
+    try {
+      const query = 'SELECT * FROM users WHERE email = $1 AND password = $2';
+      const result = await pool.query(query, [email, password]);
+      return result.rows[0] || null;
+    } catch (error) {
+      console.error('Error finding user by email and password:', error);
+      throw error;
+    }
+  }
+
   // Find user by wallet address
   static async findByWalletAddress(walletAddress: string): Promise<User | null> {
     try {
@@ -22,7 +71,7 @@ export class UserService {
     try {
       // Check if user already exists
       const existingUser = await this.findByWalletAddress(userData.walletAddress);
-      
+
       if (existingUser) {
         // Update last activity
         const updateQuery = 'UPDATE users SET updated_at = CURRENT_TIMESTAMP WHERE wallet_address = $1 RETURNING *';
@@ -86,13 +135,13 @@ export class UserService {
         values.push(updates.displayName);
         paramCount++;
       }
-      
+
       if (updates.bio !== undefined) {
         setClause.push(`bio = $${paramCount}`);
         values.push(updates.bio);
         paramCount++;
       }
-      
+
       if (updates.avatarUrl !== undefined) {
         setClause.push(`avatar_url = $${paramCount}`);
         values.push(updates.avatarUrl);
