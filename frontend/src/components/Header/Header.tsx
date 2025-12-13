@@ -1,19 +1,12 @@
 import React from 'react';
-import { Button } from '../ui';
-import { useAuth } from '../../contexts/AuthContext';
 import styles from '../../styles/components/Header.module.css';
 
 export interface HeaderProps {
   // No props needed - using AuthContext directly
 }
 
+
 export const Header: React.FC<HeaderProps> = () => {
-  const { isAuthenticated, user, logout } = useAuth();
-
-  const truncateAddress = (address: string) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
-
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -28,34 +21,14 @@ export const Header: React.FC<HeaderProps> = () => {
           <span className={styles.tagline}>Risk-sharing platform</span>
         </div>
 
-        {/* User Authentication Section */}
-        <div className={styles.walletSection}>
-          {isAuthenticated ? (
-            <div className={styles.walletInfo}>
-              <div className={styles.walletBadge}>
-                <span className={styles.walletDot}></span>
-                <span className={styles.walletAddress}>
-                  {user?.walletAddress ? truncateAddress(user.walletAddress) : user?.username || 'Connected'}
-                </span>
-              </div>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={logout}
-              >
-                Logout
-              </Button>
-            </div>
-          ) : (
-            <Button 
-              variant="primary" 
-              size="md"
-              onClick={() => console.log('Connect wallet - handled by main app')}
-            >
-              Connect Wallet
-            </Button>
-          )}
-        </div>
+        {/* Navigation Links */}
+        <nav className={styles.headerNav}>
+          <a href="/" className={styles.navLink}>Home</a>
+          <a href="/about" className={styles.navLink}>About</a>
+          <a href="/signup" className={styles.navLink}>Sign Up</a>
+          <a href="/login" className={styles.navLink}>Login</a>
+          <a href="/create" className={styles.createGroupButton}>+ Create Group</a>
+        </nav>
       </div>
     </header>
   );
