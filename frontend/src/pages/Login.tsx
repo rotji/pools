@@ -1,12 +1,14 @@
+
 import React from 'react';
+import styles from '../styles/pages/Auth.module.css';
 
 const Login: React.FC = () => (
-    <div style={{ padding: '2rem', maxWidth: 400, margin: '0 auto' }}>
-        <h1>Login</h1>
-        <form>
-            <input type="email" placeholder="Email" style={{ width: '100%', marginBottom: 12 }} />
-            <input type="password" placeholder="Password" style={{ width: '100%', marginBottom: 12 }} />
-            <button type="submit" style={{ width: '100%' }}>Login</button>
+    <div className={styles.authPage}>
+        <form className={styles.authForm}>
+            <h1 className={styles.authTitle}>Login</h1>
+            <input type="email" placeholder="Email" className={styles.authInput} />
+            <input type="password" placeholder="Password" className={styles.authInput} />
+            <button type="submit" className={styles.authButton}>Login</button>
         </form>
     </div>
 );
