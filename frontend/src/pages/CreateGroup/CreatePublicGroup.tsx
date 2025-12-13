@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { Header, Footer } from '../../components';
+import { Footer, Header } from '../../components';
 import { Button } from '../../components/ui';
 import styles from '../../styles/pages/CreateGroup.module.css';
-import { useAuth } from '../../contexts/AuthContext';
 
-interface CreatePublicGroupProps {
-  // No props needed - using AuthContext
-}
+// No props needed for plain prototype
 
 interface GroupFormData {
   title: string;
@@ -50,7 +47,7 @@ const RISK_LEVELS = [
 ];
 
 const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
-  const { user, isAuthenticated } = useAuth();
+  // Auth removed for plain prototype
   const [formData, setFormData] = useState<GroupFormData>({
     title: '',
     description: '',
@@ -110,11 +107,9 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!isAuthenticated) {
-      alert('Please log in to create a group');
-      return;
-    }
+
+
+    // No authentication check for plain prototype
 
     if (!validateForm()) {
       return;
@@ -126,8 +121,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
     try {
       console.log('Creating public group:', {
         ...formData,
-        contributionAmount: formData.contributionAmount === 'custom' ? customAmount : formData.contributionAmount,
-        creator: user?.username || user?.email
+        contributionAmount: formData.contributionAmount === 'custom' ? customAmount : formData.contributionAmount
       });
 
       // Simulate API call
@@ -153,7 +147,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
   return (
     <div className={styles.container}>
       <Header />
-      
+
       <main className={styles.main}>
         <div className={styles.content}>
           {/* Back Navigation */}
@@ -167,7 +161,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
           <div className={styles.pageHeader}>
             <h1 className={styles.pageTitle}>Create Public Group</h1>
             <p className={styles.pageDescription}>
-              Start a new investment pool that anyone can join. Set your terms and let others 
+              Start a new investment pool that anyone can join. Set your terms and let others
               participate in shared risk, shared reward investing.
             </p>
           </div>
@@ -177,7 +171,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
               {/* Basic Information */}
               <div className={styles.section}>
                 <h2 className={styles.sectionTitle}>🎯 Basic Information</h2>
-                
+
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>
                     Group Title *
@@ -215,7 +209,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
               {/* Investment Parameters */}
               <div className={styles.section}>
                 <h2 className={styles.sectionTitle}>💰 Investment Parameters</h2>
-                
+
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>
                     Asset Type *
@@ -251,7 +245,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
                       </option>
                     ))}
                   </select>
-                  
+
                   {formData.contributionAmount === 'custom' && (
                     <input
                       type="number"
@@ -263,7 +257,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
                       step="1"
                     />
                   )}
-                  
+
                   {errors.contributionAmount && <span className={styles.errorText}>{errors.contributionAmount}</span>}
                 </div>
 
@@ -360,7 +354,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
                   >
                     {showPreview ? 'Hide Preview' : 'Show Preview'}
                   </Button>
-                  
+
                   <Button
                     type="submit"
                     variant="primary"
@@ -368,9 +362,7 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
                     disabled={isSubmitting}
                     className={styles.submitButton}
                   >
-                    {isSubmitting ? 'Creating Group...' : 
-                     !isAuthenticated ? 'Login to Create' : 
-                     'Create Public Group'}
+                    {isSubmitting ? 'Creating Group...' : 'Create Public Group'}
                   </Button>
                 </div>
 
@@ -378,9 +370,9 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
                 <div className={styles.riskDisclaimer}>
                   <h4>⚠️ Important Notice</h4>
                   <p>
-                    By creating this group, you agree to act as the group coordinator. 
-                    All investments involve risk and you may lose money. This platform 
-                    does not provide financial advice. Ensure all group members understand 
+                    By creating this group, you agree to act as the group coordinator.
+                    All investments involve risk and you may lose money. This platform
+                    does not provide financial advice. Ensure all group members understand
                     the risks before joining.
                   </p>
                 </div>
