@@ -1,16 +1,17 @@
-import express from 'express';
 import cors from 'cors';
+import { config } from 'dotenv';
+import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { config } from 'dotenv';
 
 // Import database connection
 import { testConnection } from './config/database';
 
 // Import routes
+import authRoutes from './routes/auth';
 import groupRoutes from './routes/groups';
-import userRoutes from './routes/users';
 import healthRoutes from './routes/health';
+import userRoutes from './routes/users';
 
 // Load environment variables
 config();
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
 app.use('/api/health', healthRoutes);
 app.use('/api/groups', groupRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
