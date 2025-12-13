@@ -5,8 +5,9 @@
 
 import React, { useState } from 'react';
 import ApiTest from './components/ApiTest';
-import { UserProfile } from './components/auth/UserProfile';
-import { AuthProvider } from './contexts/AuthContext';
+import Header from './components/Header';
+// import { UserProfile } from './components/auth/UserProfile';
+// import { AuthProvider } from './contexts/AuthContext';
 import { Profile } from './pages';
 import { CreateGroupSelector, CreatePrivateGroup, CreatePublicGroup } from './pages/CreateGroup';
 import GroupDetail from './pages/GroupDetail/GroupDetail';
@@ -69,124 +70,18 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#f8fafc'
-    }}>
-      <header style={{
-        background: 'white',
-        borderBottom: '1px solid #e5e7eb',
-        padding: '1rem 0'
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '0 2rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          <div>
-            <h1
-              onClick={() => setCurrentPage('landing')}
-              style={{
-                margin: '0',
-                fontSize: '1.5rem',
-                color: '#1f2937',
-                cursor: 'pointer',
-                transition: 'color 0.2s'
-              }}
-              onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#3b82f6'}
-              onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#1f2937'}
-            >
-              🏊‍♀️ Investment Pools
-            </h1>
-          </div>
-
-          {/* Navigation Menu */}
-          <div style={{
-            display: 'flex',
-            gap: '2rem',
-            alignItems: 'center'
-          }}>
-            <button
-              onClick={() => setCurrentPage('landing')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: currentPage === 'landing' ? '#3b82f6' : '#6b7280',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: currentPage === 'landing' ? 'bold' : 'normal'
-              }}
-            >
-              🏠 Home
-            </button>
-            <button
-              onClick={() => setCurrentPage('groups')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: currentPage === 'groups' ? '#3b82f6' : '#6b7280',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: currentPage === 'groups' ? 'bold' : 'normal'
-              }}
-            >
-              📊 Groups
-            </button>
-            <button
-              onClick={() => setCurrentPage('create')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: currentPage === 'create' ? '#3b82f6' : '#6b7280',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: currentPage === 'create' ? 'bold' : 'normal'
-              }}
-            >
-              ➕ Create
-            </button>
-            <button
-              onClick={() => setCurrentPage('profile')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: currentPage === 'profile' ? '#3b82f6' : '#6b7280',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: currentPage === 'profile' ? 'bold' : 'normal'
-              }}
-            >
-              👤 Profile
-            </button>
-          </div>
-
-          <div>
-            <UserProfile />
-          </div>
-        </div>
-      </header>
-
-      <main style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '2rem'
-      }}>
+    <div style={{ minHeight: '100vh', background: '#fff' }}>
+      <Header />
+      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
         {renderPage()}
       </main>
     </div>
   );
 };
 
-// Main App with Auth Provider
+// Main App without Auth Provider for plain prototype
 const App: React.FC = () => {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
-  );
+  return <AppContent />;
 };
 
 export default App;
