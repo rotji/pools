@@ -20,7 +20,15 @@ router.post('/register', async (req, res) => {
         }
     } catch (error) {
         const err = error as Error;
-        res.status(500).json({ success: false, message: 'Registration failed', error: err.message });
+        // Known user errors
+        if (err.message && (
+            err.message.includes('already exists') ||
+            err.message.includes('User not found')
+        )) {
+            return res.status(400).json({ success: false, message: err.message });
+        }
+        // Unexpected errors
+        res.status(500).json({ success: false, message: 'Registration failed' });
     }
 });
 
@@ -43,7 +51,15 @@ router.post('/login', async (req, res) => {
         }
     } catch (error) {
         const err = error as Error;
-        res.status(500).json({ success: false, message: 'Login failed', error: err.message });
+        // Known user errors
+        if (err.message && (
+            err.message.includes('not found') ||
+            err.message.includes('Invalid credentials')
+        )) {
+            return res.status(400).json({ success: false, message: err.message });
+        }
+        // Unexpected errors
+        res.status(500).json({ success: false, message: 'Login failed' });
     }
 });
 
