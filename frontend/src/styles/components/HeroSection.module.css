@@ -1,20 +1,14 @@
 /* HeroSection Component Styles */
+
 .heroSection {
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: var(--space-xl) var(--space-md);
-  background: linear-gradient(
-    135deg,
-    #f0f9ff 0%,
-    #e0f2fe 25%,
-    #f0fdf4 50%,
-    #ecfdf5 75%,
-    #f0f9ff 100%
-  );
+  padding: 120px 0 0 0;
+  background: #fff;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .heroSection::before {
@@ -24,38 +18,18 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(
-    ellipse at top center,
-    rgba(29, 78, 216, 0.08) 0%,
-    rgba(8, 145, 178, 0.06) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse at top center,
+      rgba(29, 78, 216, 0.08) 0%,
+      rgba(8, 145, 178, 0.06) 40%,
+      transparent 70%);
   pointer-events: none;
-}
-
-.container {
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.heroCard {
-  padding: var(--space-2xl);
-  border-radius: var(--radius-2xl);
-  text-align: center;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .heroContent {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2xl);
+  gap: 2rem;
   max-width: 800px;
   margin: 0 auto;
 }
@@ -63,25 +37,14 @@
 .headingSection {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: 1.5rem;
   text-align: center;
 }
 
-.title {
-  font-family: var(--font-primary);
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-bold);
-  color: #0f172a; /* Dark solid color for maximum contrast */
-  line-height: var(--line-height-tight);
-  margin: 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Remove gradient text for better readability */
-}
-
 .subtitle {
-  font-size: var(--font-size-xl);
-  color: #1d4ed8; /* Strong blue color */
-  font-weight: var(--font-weight-bold); /* Make it bold */
+  font-size: 1.25rem;
+  color: #1d4ed8;
+  font-weight: 700;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -89,18 +52,18 @@
 }
 
 .description {
-  font-size: var(--font-size-lg);
-  color: #334155; /* Darker gray for better contrast */
-  line-height: var(--line-height-relaxed);
+  font-size: 1.125rem;
+  color: #334155;
+  line-height: 1.6;
   margin: 0;
   max-width: 600px;
-  font-weight: var(--font-weight-medium); /* Make it semi-bold */
+  font-weight: 500;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .ctaSection {
   display: flex;
-  gap: var(--space-lg);
+  gap: 1.5rem;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -111,78 +74,24 @@
 }
 
 .statsSection {
-  margin-top: var(--space-xl);
-  padding-top: var(--space-xl);
-  border-top: 1px solid var(--color-border-glass);
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
-  .heroCard {
-    padding: var(--space-xl);
-  }
-  
-  .title {
-    font-size: var(--font-size-3xl);
+  .heroContent {
+    gap: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
   .heroSection {
-    padding: var(--space-lg) var(--space-sm);
+    padding: 2rem 1rem;
     min-height: 90vh;
   }
-  
-  .heroCard {
-    padding: var(--space-lg);
-  }
-  
-  .heroContent {
-    gap: var(--space-xl);
-  }
-  
-  .title {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    color: #0f172a;
-  }
-  
-  .subtitle {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    color: #1d4ed8;
-  }
-  
-  .description {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    color: #334155;
-  }
-  
-  .ctaSection {
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-  
-  .primaryCta {
-    width: 100%;
-    max-width: 300px;
-  }
-}
 
-@media (max-width: 480px) {
-  .title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: #0f172a;
-  }
-  
   .heroContent {
-    gap: var(--space-lg);
-  }
-  
-  .statsSection {
-    margin-top: var(--space-lg);
-    padding-top: var(--space-lg);
+    gap: 1rem;
   }
 }
