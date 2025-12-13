@@ -1,11 +1,11 @@
 // Constants for landing page content
 export const LANDING_PAGE_CONTENT = {
   hero: {
-    title: "Invest Together. Win Together.",
-    subtitle: "Risk-pooling powered by Stacks Blockchain",
-    description: "Join investment groups, share equal contributions, and split all profits and losses fairly through smart contracts.",
-    ctaText: "Connect Wallet",
-    secondaryCtaText: "Learn More"
+    title: "Reduce Risk. Share Rewards.",
+    subtitle: "A platform for group investing in stocks, forex, crypto, betting, gambling, and commodities.",
+    description: "Create or join a group where each person invests equally in any asset. All profits and losses—no matter who makes them—are shared equally among group members. Lower your risk, maximize your opportunity, and invest together.",
+    ctaText: "Get Started",
+    secondaryCtaText: "How It Works"
   },
   stats: {
     liveGroups: "24",
