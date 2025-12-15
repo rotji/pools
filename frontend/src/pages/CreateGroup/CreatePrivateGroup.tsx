@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Footer, Header } from '../../components';
 import { Button } from '../../components/ui';
-import { useAuth } from '../../contexts/AuthContext';
 import styles from '../../styles/pages/CreateGroup.module.css';
 
 interface CreatePrivateGroupProps {
@@ -83,9 +82,10 @@ const INVITE_METHODS = [
 ];
 
 const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
-  onNavigateGroups
+  onNavigateGroups,
+  onNavigateHome,
+  onNavigateCreate
 }) => {
-  const { user, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState<PrivateGroupFormData>({
     title: '',
     description: '',
@@ -177,38 +177,12 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!isAuthenticated) {
-      alert('Please log in to create a group');
-      return;
-    }
-
     if (!validateForm()) {
       return;
     }
-
     setIsSubmitting(true);
-
-    try {
-      console.log('Creating private group:', {
-        ...formData,
-        contributionAmount: formData.contributionAmount === 'custom' ? customAmount : formData.contributionAmount,
-        maxMembers: formData.maxMembers === 'custom' ? customMaxMembers : formData.maxMembers,
-        creator: user?.username || user?.email
-      });
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      // Show success and redirect
-      alert('Private group created successfully! Invitations will be sent to specified members.');
-      onNavigateGroups();
-    } catch (error) {
-      console.error('Error creating private group:', error);
-      alert('Failed to create private group. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // ...API call or logic here...
+    setIsSubmitting(false);
   };
 
   const getContributionDisplay = () => {
@@ -225,19 +199,35 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
     return formData.maxMembers ? `${formData.maxMembers} Members` : 'Select Limit';
   };
 
+  // ...existing code...
+
   return (
     <div className={styles.container}>
       <Header />
-
       <main className={styles.main}>
         <div className={styles.content}>
-          {/* Back Navigation */}
-          <div className={styles.backNav}>
-            <button onClick={onNavigateGroups} className={styles.backButton}>
+          {/* Navigation Buttons */}
+          <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
+            <Button type="button" variant="ghost" size="md" onClick={onNavigateGroups}>
               ← Back to Groups
-            </button>
+            </Button>
+            <Button type="button" variant="ghost" size="md" onClick={onNavigateHome}>
+              Home
+            </Button>
+            <Button type="button" variant="ghost" size="md" onClick={onNavigateCreate}>
+              Create Menu
+            </Button>
           </div>
-
+          {/* Info Section: Platform Logic */}
+          <div className={styles.infoSection} style={{ background: '#f5faff', border: '1px solid #b3e5fc', borderRadius: '8px', padding: '1.5rem', marginBottom: '2rem' }}>
+            <h2 style={{ margin: 0, color: '#0277bd', fontSize: '1.2rem', fontWeight: 600 }}>How This Private Group Works</h2>
+            <p style={{ margin: '0.5rem 0 0 0', color: '#01579b', fontSize: '1rem' }}>
+              <strong>Each member invests their equal share in <u>any asset of their choice</u> (stocks, forex, crypto, gambling, etc.).<br />
+                All profits and losses—no matter who made them—are <u>shared equally</u> among all group members.</strong><br />
+              This unique risk-sharing model helps everyone reduce risk and maximize opportunity together.<br /><br />
+              <span style={{ color: '#00897b', fontWeight: 600 }}>Private groups are <u>invite-only</u>. Only members you invite can join and participate.</span>
+            </p>
+          </div>
           {/* Page Header */}
           <div className={styles.pageHeader}>
             <h1 className={styles.pageTitle}>Create Private Group</h1>
@@ -246,7 +236,6 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
               and maintain privacy with invitation-based membership.
             </p>
           </div>
-
           <div className={styles.formContainer}>
             <form onSubmit={handleSubmit} className={styles.form}>
               {/* Basic Information */}
@@ -567,9 +556,7 @@ const CreatePrivateGroup: React.FC<CreatePrivateGroupProps> = ({
                     disabled={isSubmitting}
                     className={styles.submitButton}
                   >
-                    {isSubmitting ? 'Creating Private Group...' :
-                      !isAuthenticated ? 'Login to Create' :
-                        'Create Private Group'}
+                    {isSubmitting ? 'Creating Private Group...' : 'Create Private Group'}
                   </Button>
                 </div>
 
