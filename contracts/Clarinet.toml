@@ -6,28 +6,25 @@ telemetry = true
 cache_dir = "./.cache"
 
 [contracts.group-factory]
-path = "contracts/group-factory.clar"
+path = "group-factory.clar"
 epoch = "latest"
 
 [contracts.escrow-stx]
-path = "contracts/escrow-stx.clar"
+path = "escrow-stx.clar"
 epoch = "latest"
 
 [contracts.escrow-template]
-path = "contracts/escrow-template.clar"
+path = "escrow-template.clar"
 epoch = "latest"
 
 [contracts.oracle-registry]
-path = "contracts/oracle-registry.clar"
+path = "oracle-registry.clar"
 epoch = "latest"
 
 [contracts.settlement]
-path = "contracts/settlement.clar"
+path = "settlement.clar"
 epoch = "latest"
 
-[contracts.sip010-mock-token]
-path = "contracts/sip010-mock-token.clar"
-epoch = "latest"
 
 [repl.analysis]
 passes = ["check_checker"]
