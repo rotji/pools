@@ -3,7 +3,10 @@ import { Footer, Header } from '../../components';
 import { Button } from '../../components/ui';
 import styles from '../../styles/pages/CreateGroup.module.css';
 
-// No props needed for plain prototype
+
+interface CreatePublicGroupProps {
+  onNavigateGroups: () => void;
+}
 
 interface GroupFormData {
   title: string;
@@ -46,7 +49,7 @@ const RISK_LEVELS = [
   { value: 'high', label: 'High Risk', description: 'Aggressive investments with high potential returns' }
 ];
 
-const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
+const CreatePublicGroup: React.FC<CreatePublicGroupProps> = ({ onNavigateGroups }) => {
   // Auth removed for plain prototype
   const [formData, setFormData] = useState<GroupFormData>({
     title: '',
@@ -150,9 +153,19 @@ const CreatePublicGroup: React.FC<CreatePublicGroupProps> = () => {
 
       <main className={styles.main}>
         <div className={styles.content}>
+          {/* Info Section: Platform Logic */}
+          <div className={styles.infoSection} style={{ background: '#f5faff', border: '1px solid #b3e5fc', borderRadius: '8px', padding: '1.5rem', marginBottom: '2rem' }}>
+            <h2 style={{ margin: 0, color: '#0277bd', fontSize: '1.2rem', fontWeight: 600 }}>How This Group Works</h2>
+            <p style={{ margin: '0.5rem 0 0 0', color: '#01579b', fontSize: '1rem' }}>
+              <strong>Each member invests their equal share in <u>any asset of their choice</u> (stocks, forex, crypto, gambling, etc.).<br />
+                All profits and losses—no matter who made them—are <u>shared equally</u> among all group members.</strong><br />
+              This unique risk-sharing model helps everyone reduce risk and maximize opportunity together.
+            </p>
+          </div>
+
           {/* Back Navigation */}
           <div className={styles.backNav}>
-            <button onClick={() => window.history.back()} className={styles.backButton}>
+            <button onClick={onNavigateGroups} className={styles.backButton}>
               ← Back to Groups
             </button>
           </div>
