@@ -1,3 +1,24 @@
+// Group Investment Type
+export interface GroupInvestment {
+  id: string;
+  group_id: string;
+  user_id: string;
+  asset_type: string;
+  amount_invested: number;
+  profit_or_loss?: number;
+  investment_timestamp: string;
+}
+
+// Group Invitation Type
+export interface GroupInvitation {
+  id: string;
+  group_id: string;
+  invited_user_id?: string;
+  invited_email?: string;
+  status: 'pending' | 'accepted' | 'rejected';
+  invited_by: string;
+  invitation_timestamp: string;
+}
 // Basic API Response Types for Demo
 export interface ApiResponse<T = any> {
   success: boolean;
