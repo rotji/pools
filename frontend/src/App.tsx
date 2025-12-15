@@ -86,7 +86,7 @@ const AppContent: React.FC = () => {
           />
         );
       case 'create-public':
-        return <CreatePublicGroup />;
+        return <CreatePublicGroup onNavigateGroups={navigationProps.onNavigateGroups} />;
       case 'create-private':
         return <CreatePrivateGroup {...navigationProps} />;
       case 'profile':
