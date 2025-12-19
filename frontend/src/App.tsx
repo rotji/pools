@@ -7,6 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import ApiTest from './components/ApiTest';
 import Header from './components/Header';
+import WalletConnect from './components/WalletConnect';
 import { Profile } from './pages';
 import About from './pages/About';
 import { CreateGroupSelector, CreatePrivateGroup, CreatePublicGroup } from './pages/CreateGroup';
@@ -23,6 +24,8 @@ const AppContent: React.FC = () => {
   // Authentication logic removed for prototype: always show main app shell and pages
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedGroupId, setSelectedGroupId] = useState<string>();
+  const [showWalletModal, setShowWalletModal] = useState(false);
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
 
   // Main authenticated app
   const handleViewGroupDetail = (groupId: string) => {
@@ -109,10 +112,18 @@ const AppContent: React.FC = () => {
 
   return (
     <div style={{ minHeight: '100vh', background: '#fff' }}>
-      <Header />
+      <Header onConnectWallet={() => setShowWalletModal(true)} walletAddress={walletAddress} />
       <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
         {renderPage()}
       </main>
+      <WalletConnect
+        isOpen={showWalletModal}
+        onClose={() => setShowWalletModal(false)}
+        onConnect={address => {
+          setWalletAddress(address);
+          setShowWalletModal(false);
+        }}
+      />
     </div>
   );
 };
