@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '../ui';
+import React, { useState } from 'react';
 import styles from '../../styles/components/WalletConnect.module.css';
+import { Button } from '../ui';
 
 export interface WalletConnectProps {
   isOpen: boolean;
@@ -25,54 +25,37 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
   const [walletInfo, setWalletInfo] = useState<WalletInfo | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  // Reset state when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      setConnectionStep('select');
-      setWalletInfo(null);
-      setErrorMessage('');
-    }
-  }, [isOpen]);
-
+  // Handler for Hiro/Leather wallet connect
   const handleHiroWalletConnect = async () => {
     setConnectionStep('connecting');
     setErrorMessage('');
-
     try {
       // Check if Hiro Wallet is installed
       if (typeof window !== 'undefined' && (window as any).StacksProvider) {
         const stacksProvider = (window as any).StacksProvider;
-        
         // Request wallet connection
         const response = await stacksProvider.request({
           method: 'stx_requestAccounts',
         });
-
         if (response && response.length > 0) {
           const address = response[0];
-          
           // Get additional wallet info
           const balanceResponse = await stacksProvider.request({
             method: 'stx_getBalance',
             params: { address }
           });
-
           const networkResponse = await stacksProvider.request({
             method: 'stx_getNetwork'
           });
-
           const walletData: WalletInfo = {
             address: address,
             balance: balanceResponse ? formatBalance(balanceResponse.balance) : '0',
             network: networkResponse?.network || 'testnet'
           };
-
           setWalletInfo(walletData);
           setConnectionStep('success');
-          
           // Notify parent component
           onConnect(address);
-          
           // Auto close after 2 seconds
           setTimeout(() => {
             onClose();
@@ -84,23 +67,7 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
         throw new Error('Hiro Wallet not installed');
       }
     } catch (error: any) {
-      console.error('Wallet connection error:', error);
-      setErrorMessage(error.message || 'Failed to connect wallet');
-      setConnectionStep('error');
-    }
-  };
-
-  const handleWalletConnectConnect = async () => {
-    setConnectionStep('connecting');
-    setErrorMessage('');
-
-    try {
-      // WalletConnect integration would go here
-      // For now, show coming soon message
-      setErrorMessage('WalletConnect integration coming soon');
-      setConnectionStep('error');
-    } catch (error: any) {
-      setErrorMessage(error.message || 'Failed to connect via WalletConnect');
+      setErrorMessage(error.message || 'Failed to connect via Hiro/Leather wallet');
       setConnectionStep('error');
     }
   };
@@ -124,6 +91,63 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
     window.open('https://wallet.hiro.so/', '_blank');
   };
 
+  // Xverse browser extension connect logic
+  const handleXverseWalletConnect = async () => {
+    setConnectionStep('connecting');
+    setErrorMessage('');
+    try {
+      // Xverse injects window.xverseProviders.stacks
+      if (typeof window !== 'undefined' && (window as any).xverseProviders?.stacks) {
+        const xverseProvider = (window as any).xverseProviders.stacks;
+        // Request wallet connection
+        const response = await xverseProvider.request({ method: 'stx_requestAccounts' });
+        if (response && response.length > 0) {
+          const address = response[0];
+          // Get additional wallet info
+          const balanceResponse = await xverseProvider.request({
+            method: 'stx_getBalance',
+            params: { address }
+          });
+          const networkResponse = await xverseProvider.request({
+            method: 'stx_getNetwork'
+          });
+          const walletData: WalletInfo = {
+            address: address,
+            balance: balanceResponse ? formatBalance(balanceResponse.balance) : '0',
+            network: networkResponse?.network || 'mainnet'
+          };
+          setWalletInfo(walletData);
+          setConnectionStep('success');
+          onConnect(address);
+          setTimeout(() => {
+            onClose();
+          }, 2000);
+        } else {
+          throw new Error('No accounts found');
+        }
+      } else {
+        throw new Error('Xverse Wallet not installed');
+      }
+    } catch (error: any) {
+      setErrorMessage(error.message || 'Failed to connect to Xverse wallet');
+      setConnectionStep('error');
+    }
+  };
+
+  // WalletConnect (mobile) handler
+  const handleWalletConnectConnect = async () => {
+    setConnectionStep('connecting');
+    setErrorMessage('');
+    try {
+      // WalletConnect integration would go here
+      // For now, show a message that it's not yet implemented
+      throw new Error('WalletConnect integration coming soon! Please use desktop browser extensions for now.');
+    } catch (error: any) {
+      setErrorMessage(error.message || 'Failed to connect via WalletConnect');
+      setConnectionStep('error');
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -135,56 +159,68 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
             ×
           </button>
         </div>
-
         <div className={styles.content}>
           {connectionStep === 'select' && (
             <>
               <p className={styles.description}>
                 Connect your wallet to join investment groups and manage your portfolio
               </p>
-
               <div className={styles.walletOptions}>
-                <button 
+                <button
                   className={styles.walletOption}
                   onClick={handleHiroWalletConnect}
                   disabled={isConnecting}
                 >
-                  <div className={styles.walletIcon}>🏦</div>
+                  <div className={styles.walletIcon}>🦊</div>
                   <div className={styles.walletInfo}>
-                    <h3>Hiro Wallet</h3>
-                    <p>Connect using Hiro Wallet browser extension</p>
+                    <h3>Hiro/Leather Wallet</h3>
+                    <p>Connect using Hiro or Leather browser extension (desktop only)</p>
                   </div>
                   <div className={styles.arrow}>→</div>
                 </button>
-
-                <button 
+                <button
+                  className={styles.walletOption}
+                  onClick={handleXverseWalletConnect}
+                  disabled={isConnecting}
+                >
+                  <div className={styles.walletIcon}>🦉</div>
+                  <div className={styles.walletInfo}>
+                    <h3>Xverse Wallet</h3>
+                    <p>Connect using Xverse browser extension (desktop only)</p>
+                  </div>
+                  <div className={styles.arrow}>→</div>
+                </button>
+                {/* Mobile WalletConnect Option */}
+                <button
                   className={styles.walletOption}
                   onClick={handleWalletConnectConnect}
                   disabled={isConnecting}
                 >
                   <div className={styles.walletIcon}>📱</div>
                   <div className={styles.walletInfo}>
-                    <h3>WalletConnect</h3>
-                    <p>Connect using mobile wallet via QR code</p>
+                    <h3>WalletConnect (Xverse, Mobile)</h3>
+                    <p>Connect using Xverse or other mobile wallets via QR code</p>
                   </div>
                   <div className={styles.arrow}>→</div>
                 </button>
               </div>
-
               <div className={styles.helpSection}>
                 <p className={styles.helpText}>
                   Don't have a Stacks wallet?{' '}
-                  <button 
+                  <button
                     className={styles.helpLink}
                     onClick={handleInstallHiro}
                   >
                     Install Hiro Wallet
                   </button>
+                  <br />
+                  <span style={{ fontSize: '0.95em', color: '#888' }}>
+                    Only desktop browser extensions (Hiro, Leather, Xverse) are supported. Mobile wallets coming soon.
+                  </span>
                 </p>
               </div>
             </>
           )}
-
           {connectionStep === 'connecting' && (
             <div className={styles.loadingState}>
               <div className={styles.spinner}></div>
@@ -192,12 +228,10 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
               <p>Please check your wallet and approve the connection request</p>
             </div>
           )}
-
           {connectionStep === 'success' && walletInfo && (
             <div className={styles.successState}>
               <div className={styles.successIcon}>✅</div>
               <h3>Wallet Connected Successfully!</h3>
-              
               <div className={styles.walletDetails}>
                 <div className={styles.detail}>
                   <span className={styles.label}>Address:</span>
@@ -214,28 +248,25 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
                   <span className={styles.value}>{walletInfo.network}</span>
                 </div>
               </div>
-
               <p className={styles.autoClose}>Closing automatically...</p>
             </div>
           )}
-
           {connectionStep === 'error' && (
             <div className={styles.errorState}>
               <div className={styles.errorIcon}>❌</div>
               <h3>Connection Failed</h3>
               <p className={styles.errorMessage}>{errorMessage}</p>
-              
               {errorMessage.includes('not installed') && (
                 <div className={styles.errorActions}>
-                  <Button 
-                    variant="primary" 
+                  <Button
+                    variant="primary"
                     onClick={handleInstallHiro}
                     size="sm"
                   >
                     Install Hiro Wallet
                   </Button>
-                  <Button 
-                    variant="secondary" 
+                  <Button
+                    variant="secondary"
                     onClick={handleRetry}
                     size="sm"
                   >
@@ -243,18 +274,17 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
                   </Button>
                 </div>
               )}
-
               {!errorMessage.includes('not installed') && (
                 <div className={styles.errorActions}>
-                  <Button 
-                    variant="primary" 
+                  <Button
+                    variant="primary"
                     onClick={handleRetry}
                     size="sm"
                   >
                     Try Again
                   </Button>
-                  <Button 
-                    variant="secondary" 
+                  <Button
+                    variant="secondary"
                     onClick={onClose}
                     size="sm"
                   >
@@ -265,7 +295,6 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
             </div>
           )}
         </div>
-
         <div className={styles.footer}>
           <div className={styles.securityNote}>
             <span className={styles.securityIcon}>🔒</span>
@@ -275,4 +304,5 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
       </div>
     </div>
   );
-};
+}
+export default WalletConnect;
