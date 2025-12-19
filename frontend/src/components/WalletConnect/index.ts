@@ -1,1 +1,2 @@
-export { WalletConnect, type WalletConnectProps } from './WalletConnect';
+export { default, WalletConnect } from './WalletConnect';
+
