@@ -1,12 +1,15 @@
+
 import React from 'react';
 import styles from '../../styles/components/Header.module.css';
 
+
 export interface HeaderProps {
-  // No props needed - using AuthContext directly
+  onConnectWallet?: () => void;
+  walletAddress?: string | null;
 }
 
 
-export const Header: React.FC<HeaderProps> = () => {
+export const Header: React.FC<HeaderProps> = ({ onConnectWallet, walletAddress }) => {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -28,6 +31,15 @@ export const Header: React.FC<HeaderProps> = () => {
           <a href="/signup" className={styles.navLink}>Sign Up</a>
           <a href="/login" className={styles.navLink}>Login</a>
           <a href="/create" className={styles.createGroupButton}>+ Create Group</a>
+          {walletAddress ? (
+            <span className={styles.navLink} style={{ marginLeft: '1rem', background: '#e0f2fe', color: '#0369a1' }}>
+              {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+            </span>
+          ) : (
+            <button className={styles.navLink} style={{ marginLeft: '1rem' }} onClick={onConnectWallet}>
+              Connect Wallet
+            </button>
+          )}
         </nav>
       </div>
     </header>
