@@ -1,3 +1,5 @@
+import WalletConnectClient from '@walletconnect/client';
+import QRCodeModal from '@walletconnect/qrcode-modal';
 import React, { useState } from 'react';
 import styles from '../../styles/components/WalletConnect.module.css';
 import { Button } from '../ui';
@@ -21,7 +23,7 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
   onConnect,
   isConnecting = false
 }) => {
-  const [connectionStep, setConnectionStep] = useState<'select' | 'connecting' | 'success' | 'error'>('select');
+  const [connectionStep, setConnectionStep] = useState<'select' | 'connecting' | 'success' | 'error' | 'qr'>('select');
   const [walletInfo, setWalletInfo] = useState<WalletInfo | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -136,12 +138,54 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
 
   // WalletConnect (mobile) handler
   const handleWalletConnectConnect = async () => {
-    setConnectionStep('connecting');
+    setConnectionStep('qr');
     setErrorMessage('');
     try {
-      // WalletConnect integration would go here
-      // For now, show a message that it's not yet implemented
-      throw new Error('WalletConnect integration coming soon! Please use desktop browser extensions for now.');
+      // Create WalletConnect client
+      const connector = new WalletConnectClient({
+        bridge: 'https://bridge.walletconnect.org',
+        qrcodeModal: QRCodeModal
+      });
+
+      // Check if already connected
+      if (!connector.connected) {
+        // Create new session
+        await connector.createSession();
+      }
+
+      // Show QR code modal
+      QRCodeModal.open(connector.uri, () => {
+        setConnectionStep('select');
+      });
+
+      // Listen for connection
+      connector.on('connect', (error, payload) => {
+        QRCodeModal.close();
+        if (error) {
+          setErrorMessage('Failed to connect via WalletConnect');
+          setConnectionStep('error');
+          return;
+        }
+        const { accounts } = payload.params[0];
+        if (accounts && accounts.length > 0) {
+          const address = accounts[0];
+          setWalletInfo({ address, balance: 'N/A', network: 'mobile' });
+          setConnectionStep('success');
+          onConnect(address);
+          setTimeout(() => {
+            onClose();
+          }, 2000);
+        } else {
+          setErrorMessage('No accounts found');
+          setConnectionStep('error');
+        }
+      });
+
+      // Listen for disconnect
+      connector.on('disconnect', () => {
+        QRCodeModal.close();
+        setConnectionStep('select');
+      });
     } catch (error: any) {
       setErrorMessage(error.message || 'Failed to connect via WalletConnect');
       setConnectionStep('error');
@@ -226,6 +270,14 @@ export const WalletConnect: React.FC<WalletConnectProps> = ({
               <div className={styles.spinner}></div>
               <h3>Connecting to wallet...</h3>
               <p>Please check your wallet and approve the connection request</p>
+            </div>
+          )}
+          {connectionStep === 'qr' && (
+            <div className={styles.loadingState}>
+              <div className={styles.spinner}></div>
+              <h3>Scan QR code with your mobile wallet</h3>
+              <p>Open Xverse or Leather wallet app and scan the QR code to connect.</p>
+              {/* QRCodeModal will show the QR code in a popup, so no need to render here */}
             </div>
           )}
           {connectionStep === 'success' && walletInfo && (
